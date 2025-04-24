@@ -2,7 +2,7 @@ class networth
 {
     constructor() 
     {
-      this.year = 0;
+      this.age = 0;
       this.net_worth = 0;
       this.cash_to_invest = 0; 
     }
@@ -17,9 +17,9 @@ class networth
       return this.cash_to_invest;
     }
 
-    getYear()
+    getAge()
     {
-        return this.year;
+        return this.age;
     }
   
 
@@ -28,17 +28,17 @@ class networth
         //Year
         fill(248, 230, 181);
         textSize(30);
-        text("Year " + str(net_Worth.getYear()) , 30, 50);
+        text("Age " + this.age , 30, 50);
 
         //Net Worth
         textSize(16);
         text("NET WORTH: " + str(net_Worth.getNetWorth()), 30, 120);
         text("Cash to invest: " + str(net_Worth.getCashToInvest()), 30, 160);
 
-        //Fast forward sign
+        // forward sign
         textSize(20);
         push();
-        translate(130, -25);
+        translate(100, -25);
         scale(.5);
         triangle(130, 100, 130, 150, 170, 125);
         triangle(170, 100, 170, 150, 210, 125);

@@ -9,14 +9,13 @@ class job
 
     display()
     {
-       
         push();
         translate (266,40);
 
         translate(-38, -270);  //**********keep copying this box 
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 270, 200, 50); // income box x,y,w,h*
+        rect(40, 270, 200, 80); // income box x,y,w,h*
         
         pop();
 
@@ -26,8 +25,7 @@ class job
         strokeWeight(3);
         textSize(12);
         
-        text("Salary: ", 280, 70);
-        
+        text("Salary: " + int(this.wage), 280, 70);
 
     }
 
@@ -36,8 +34,10 @@ class job
         return this.wage + this.wage_increase;
     }
 
+
     update(values) 
     {
       Object.assign(this, values);
     }
+
 }

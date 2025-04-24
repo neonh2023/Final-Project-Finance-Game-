@@ -3,6 +3,9 @@ let incomeStatement;
 let net_worth;
 let job_box;
 
+let salaryInput;
+let age_va = 20;
+
 
 
 function setup() 
@@ -12,23 +15,18 @@ function setup()
  
  //Net Worth
    net_Worth = new networth();
-   net_Worth.update({
-      year: 1941,
-      net_worth: 0,
-      cash_to_invest: 0
-   })
-
+   
 //Income Statement
    incomeStatement = new IncomeStatement();
    incomeStatement.update({
-   wage: 40000,
-   interest: 2000,
-   dividend: 1000,
-   rent_income: 1500,
-   miscellaneous: 500,
-   living_cost: 25000,
-   mortgage: 8000,
-   income_tax: 5000,
+   wage: 0,
+   interest: 0,
+   dividend: 0,
+   rent_income: 0,
+   miscellaneous: 0,
+   living_cost: 0,
+   mortgage: 0,
+   income_tax: 0,
    dividend_tax: 0,
    capital_gain_tax: 0
    });
@@ -36,15 +34,42 @@ function setup()
 
 
    job_box = new job();
-   job_box.update({
-   wage: 0,
-   wage_increase: 25000
+
+   //input salary
+   salaryInput = createInput('');
+   salaryInput.position(300, 82);
+   salaryInput.size(130,20);
+   salaryInput.attribute('placeholder', 'Enter starting salary');
+   
+   salaryInput.elt.addEventListener("keydown", function (e) 
+   {
+      if (e.key === "Enter") 
+      {
+        let salaryValue = int(salaryInput.value());
+        job_box.wage = isNaN(salaryValue) ? 0 : salaryValue;
+        incomeStatement.wage = job_box.wage;
+      }
    });
 }
 
 
 function draw() 
 {
+   background(74, 91, 62);
+   //Net Worth and Age
+   /*if(age_va >= 65)
+      {
+         age_va = 20;
+      }
+   */
+   net_Worth.update({
+      age: age_va,
+      net_worth: 0,
+      cash_to_invest: 0
+   })
+
+  
+
    incomeStatement.display();
    net_Worth.display();
    job_box.display();
@@ -56,4 +81,13 @@ function mousePressed()
    print(mouseX);
    print(", mouseY is: ");
    print(mouseY);
+
+   if (mouseX >= 163 && mouseX <= 206 && mouseY >= 22 && mouseY <= 53) 
+   {
+      age_va++;
+      job_box.wage =  job_box.wage * 1.06;  // Wage increase because of inflation. 
+      incomeStatement.wage = job_box.wage;
+   }
+   
 }
+
