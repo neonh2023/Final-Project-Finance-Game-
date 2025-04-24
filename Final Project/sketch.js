@@ -1,6 +1,8 @@
 
 let incomeStatement;
 let net_worth;
+let job_box;
+
 
 
 function setup() 
@@ -32,14 +34,26 @@ function setup()
    });
 
 
+
+   job_box = new job();
+   job_box.update({
+   wage: 0,
+   wage_increase: 25000
+   });
 }
+
 
 function draw() 
 {
    incomeStatement.display();
    net_Worth.display();
+   job_box.display();
+}
 
-   //drawAccountBox("SAVINGS ACCOUNT", "$0.53", ["withdraw", "deposit"], 320, 40);
-
-
+function mousePressed()
+{
+   print("mouseX is: ");
+   print(mouseX);
+   print(", mouseY is: ");
+   print(mouseY);
 }

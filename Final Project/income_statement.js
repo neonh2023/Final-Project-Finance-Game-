@@ -41,8 +41,8 @@ class IncomeStatement
         fill(241, 227, 176);
         rect(40, 270, 200, 150); // income box x,y,w,h*
 
-        textStyle(BOLD);
-        textSize(20);
+       // textStyle(BOLD);
+        textSize(18);
         text("Income Statement", 40, 260);
         
         fill(0);

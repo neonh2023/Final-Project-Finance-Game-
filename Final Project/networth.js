@@ -27,14 +27,15 @@ class networth
     {
         //Year
         fill(248, 230, 181);
-        textSize(32);
+        textSize(30);
         text("Year " + str(net_Worth.getYear()) , 30, 50);
 
         //Net Worth
-        textSize(18);
+        textSize(16);
         text("NET WORTH: " + str(net_Worth.getNetWorth()), 30, 120);
         text("Cash to invest: " + str(net_Worth.getCashToInvest()), 30, 160);
 
+        //Fast forward sign
         textSize(20);
         push();
         translate(130, -25);
@@ -42,6 +43,9 @@ class networth
         triangle(130, 100, 130, 150, 170, 125);
         triangle(170, 100, 170, 150, 210, 125);
         pop();
+
+        //Wage set up
+
 
     }
   
