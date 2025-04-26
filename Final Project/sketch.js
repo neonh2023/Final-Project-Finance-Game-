@@ -8,11 +8,23 @@ let age_va = 20;
 
 
 
+
+
+
+
+function preload()
+{
+   question_mark_job = loadImage('data/Question_mark.png');
+   cross_job = loadImage('data/cross.png');
+   next = loadImage('data/next.png');
+
+}
+
 function setup() 
 {
  createCanvas(windowWidth, windowHeight);
  background(74, 91, 62);
- 
+
  //Net Worth
    net_Worth = new networth();
    
@@ -37,9 +49,10 @@ function setup()
 
    //input salary
    salaryInput = createInput('');
-   salaryInput.position(300, 82);
+   salaryInput.position(300, 102);
    salaryInput.size(130,20);
    salaryInput.attribute('placeholder', 'Enter starting salary');
+   
    
    salaryInput.elt.addEventListener("keydown", function (e) 
    {
@@ -50,6 +63,8 @@ function setup()
         incomeStatement.wage = job_box.wage;
       }
    });
+
+   
 }
 
 
@@ -62,6 +77,7 @@ function draw()
          age_va = 20;
       }
    */
+
    net_Worth.update({
       age: age_va,
       net_worth: 0,
@@ -71,8 +87,11 @@ function draw()
   
 
    incomeStatement.display();
+
    net_Worth.display();
+
    job_box.display();
+
 }
 
 function mousePressed()
@@ -87,6 +106,23 @@ function mousePressed()
       age_va++;
       job_box.wage =  job_box.wage * 1.06;  // Wage increase because of inflation. 
       incomeStatement.wage = job_box.wage;
+   }
+
+
+   // FOR JOB JS
+   if (dist(mouseX , mouseY, 443, 45) <= 20) 
+   {
+      job_info1 = true;
+   }
+   else if(dist(mouseX , mouseY, 1250, 215) <= 20)
+   {
+      job_info1 = false;
+      job_info2 = false;
+   }
+
+   if (dist(mouseX, mouseY, 1262, 447) <= 20)
+   {
+      job_info2 = true;
    }
    
 }

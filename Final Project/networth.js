@@ -44,8 +44,6 @@ class networth
         triangle(170, 100, 170, 150, 210, 125);
         pop();
 
-        //Wage set up
-
 
     }
   
