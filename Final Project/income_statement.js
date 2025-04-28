@@ -11,7 +11,7 @@ class IncomeStatement
   
       // Expenses
       this.living_cost;
-      this.mortgage;
+      this.mortgage_interest;
       this.income_tax;
       this.dividend_tax ;
       this.capital_gain_tax;
@@ -24,12 +24,12 @@ class IncomeStatement
   
     getExpenses() 
     {
-      return this.living_cost + this.mortgage + this.income_tax + this.dividend_tax + this.capital_gain_tax;
+      return int(this.living_cost) + this.mortgage_interest + this.income_tax + this.dividend_tax + this.capital_gain_tax;
     }
   
     getNetIncome()
     {
-      return this.getIncome() - this.getExpenses();
+      return int(this.getIncome() - this.getExpenses());
     }
 
     getIncomeTax()
@@ -98,10 +98,10 @@ class IncomeStatement
         rect(40, 420, 200, 150);  // expense box (x,y*,w,h*)
 
         fill(0);
-        text("Expenses " + str(incomeStatement.getExpenses()), 50, 440);
+        text("Expenses " + int(incomeStatement.getExpenses()), 50, 440);
         line (40, 450, 240, 450); // Just a line
-        text("living cost ...............  " + str(incomeStatement.living_cost), 50, 470);
-        text("mortgage ...............  " + str(incomeStatement.mortgage), 50, 490);
+        text("living cost ...............  " + int(incomeStatement.living_cost), 50, 470);
+        text("mortgage ...............  " + str(incomeStatement.mortgage_interest), 50, 490);
         text("Income tax ........" + int(this.income_tax), 50, 510);
         text("Dividend tax ........" + str(incomeStatement.dividend_tax), 50, 530); 
         text("Capital Gain tax ........" + str(incomeStatement.capital_gain_tax), 50, 550); 
@@ -114,6 +114,7 @@ class IncomeStatement
 
         fill(0);
         text("Net Income: " + int(incomeStatement.getNetIncome()), 50, 590);
+        
 
         pop();
 

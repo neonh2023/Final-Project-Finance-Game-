@@ -2,7 +2,7 @@ class networth
 {
     constructor() 
     {
-      this.age = 0;
+      this.age = 20;
       this.net_worth = 0;
       this.cash_to_invest = 0; 
     }
@@ -51,5 +51,5 @@ class networth
     {
       Object.assign(this, values);
     }
-  }
+}
   

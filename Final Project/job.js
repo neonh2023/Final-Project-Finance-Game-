@@ -81,11 +81,11 @@ class job
         text ("PRO", 560, 260);
         text("* This is the best way to protect yourself from inflation. If you are the best doctor", 550, 300);
         text("  in the country. Your skill will be valueable to society forever. Society will pay", 552, 330);
-        text("  higher amount for your service even in ranpant inflationary environment.", 552, 360);
+        text("  higher amount for your service even in rampant inflationary environment.", 552, 360);
 
         text("CON ", 560, 410);
-        text("* Income from job get tax more than any other income source.", 552, 450);
-        text("* You are tax at higher rates as you work harder.", 552, 480);
+        text("* Income from job get tax more than any other income sources.", 552, 450);
+        text("* You get taxed at higher rates as you work harder.", 552, 480);
         pop();
     }
 
@@ -101,43 +101,17 @@ class job
 
         cross_job.resize(20,20);   ///Cross Mark
         image(cross_job, 1250, 215);
+
+        incometax.resize(500, 480);
+        image(incometax, 650, 210 );
         
 
-    }
+    };
+        
 
-    getTaxBreakdown()
-    {
-        let income = this.wage;
-        let breakdown = [];
-      
-        let brackets = [
-          { min: 0, max: 11600, rate: 0.10 },
-          { min: 11600, max: 47150, rate: 0.12 },
-          { min: 47150, max: 100525, rate: 0.22 },
-          { min: 100525, max: 191950, rate: 0.24 },
-          { min: 191950, max: 243725, rate: 0.32 },
-          { min: 243725, max: 609350, rate: 0.35 },
-          { min: 609350, max: Infinity, rate: 0.37 },
-        ];
-      
-        for (let b of brackets) {
-          if (income > b.min) {
-            let taxable = Math.min(income, b.max) - b.min;
-            let tax = taxable * b.rate;
-            breakdown.push({
-              range: `$${b.min.toLocaleString()} - ${b.max === Infinity ? "$∞" : "$" + b.max.toLocaleString()}`,
-              rate: b.rate,
-              taxed: taxable,
-              taxOwed: tax
-            });
-          }
-        }
-      
-        return breakdown;
-    }
-      
+    
 
-
+  
     update(values) 
     {
       Object.assign(this, values);
