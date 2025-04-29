@@ -15,6 +15,7 @@ class IncomeStatement
       this.income_tax;
       this.dividend_tax ;
       this.capital_gain_tax;
+      this.credit_card_interest;
     }
   
     getIncome() 
@@ -24,7 +25,7 @@ class IncomeStatement
   
     getExpenses() 
     {
-      return int(this.living_cost) + this.mortgage_interest + this.income_tax + this.dividend_tax + this.capital_gain_tax;
+      return int(this.living_cost) + this.mortgage_interest + this.income_tax + this.dividend_tax + this.capital_gain_tax +this.credit_card_interest;
     }
   
     getNetIncome()
@@ -91,12 +92,13 @@ class IncomeStatement
         text("Interest ...........  " + str(this.interest), 50, 340);
         text("Dividend ...........  " + str(this.dividend), 50, 360);
         text("rent income ........  " + str(this.rent_income), 50, 380);
-        text("Miscellenous .......  " + str(this.miscellaneous), 50, 400);
+      
 
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 420, 200, 150);  // expense box (x,y*,w,h*)
+        rect(40, 400, 200, 190);  // expense box (x,y*,w,h*)
 
+        translate(0,-20);
         fill(0);
         text("Expenses " + int(incomeStatement.getExpenses()), 50, 440);
         line (40, 450, 240, 450); // Just a line
@@ -104,9 +106,10 @@ class IncomeStatement
         text("mortgage ...............  " + str(incomeStatement.mortgage_interest), 50, 490);
         text("Income tax ........" + int(this.income_tax), 50, 510);
         text("Dividend tax ........" + str(incomeStatement.dividend_tax), 50, 530); 
-        text("Capital Gain tax ........" + str(incomeStatement.capital_gain_tax), 50, 550); 
+        text("Capital Gain tax ........" + str(incomeStatement.capital_gain_tax), 50, 550);
+        text("Credit Card interest ........" + str(incomeStatement.credit_card_interest), 50, 570); 
 
-
+        translate(0,15);
         strokeWeight(3);
         fill(241, 227, 176);
         rect(40, 570 , 200, 30);  // net income box (x,y*,w,h*)

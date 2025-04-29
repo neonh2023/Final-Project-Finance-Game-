@@ -16,6 +16,8 @@ let living_question1;
 
 let balance_sheet;
 
+let bond1;
+
 
 
 function preload()
@@ -39,6 +41,7 @@ function setup()
  //Net Worth
    net_Worth = new networth();
    
+
 //Income Statement
    incomeStatement = new IncomeStatement();
    incomeStatement.update({
@@ -51,20 +54,23 @@ function setup()
    mortgage_interest: 0,
    income_tax: 0,
    dividend_tax: 0,
-   capital_gain_tax: 0
+   capital_gain_tax: 0,
+   credit_card_interest: 0
    });
+
 
 //Balance Sheet
   balance_sheet = new balanceSheet();
   balance_sheet.update({
-   cash: 0,
-   equity: 0,
-   bond: 0,
-   home: 0,
-   mortgage: 0,
-   car_loan: 0,
-   student_loan: 0,
-   credit_card: 0
+      cash: 0,
+      equity: 0,
+      bond: 0,
+      home: 0,
+      
+      mortgage: 0,
+      car_loan: 0,
+      student_loan: 0,
+      credit_card: 0
    });
 
 
@@ -109,8 +115,15 @@ function setup()
 
    job_box = new job();
 
+   bond1 = new bond();
+
+   bond1.update({
+      amount: 1000,
+      option: 2
+   });
+
+
    
-      
 }
 
 
@@ -137,6 +150,8 @@ function draw()
    living_cost();
 
    balance_sheet.display();
+
+   bond1.display();
 
   
 
@@ -208,19 +223,20 @@ function living_cost()
 
 function mousePressed()
 {
-   print("mouseX is: ");
+  print("mouseX is: ");
    print(mouseX);
    print(", mouseY is: ");
    print(mouseY);
 
    if (mouseX >= 163 && mouseX <= 206 && mouseY >= 22 && mouseY <= 53) 
    {
-      if(age_va = age_time)
+      if(age_va = age_time)  // after i click move to the next year. net income get added to balance sheet cash
          {
             balance_sheet.cash = balance_sheet.cash + int(incomeStatement.getNetIncome());
             age_time++;
             age_va++;
          }
+
       net_Worth.age = age_va;
       job_box.wage =  job_box.wage * 1.06;  // Wage increase because of inflation. 
       incomeStatement.wage = job_box.wage;
