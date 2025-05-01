@@ -17,12 +17,14 @@ class job
     display()
     {
         push();
+        translate(35,0);
+        push();
         translate (266,40);
 
         translate(-38, -270);  //**********keep copying this box 
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 270, 200, 100); // income box x,y,w,h*
+        rect(40, 270, 200, 118); // income box x,y,w,h*
         
         pop();
 
@@ -30,13 +32,14 @@ class job
 
         fill(0);
         strokeWeight(3);
-        textSize(12);
+        textSize(15);
         
         text("Salary: " + int(this.new_wage()), 280, 70);
         text("Income tax: "+ int(incomeStatement.income_tax), 280, 90);
         
         question_mark_job.resize(20,20);   ///Question mark
         image(question_mark_job, 443, 45);
+
 
         if (job_info1 == true)
         {
@@ -47,6 +50,8 @@ class job
                 this.job_info2();
             }
         }
+
+        pop();
         
 
     }
@@ -63,7 +68,9 @@ class job
 
         push();
         translate(0,0);
+
         fill(58, 65, 53);
+        
         rect(541,204, 740,500 );
 
         cross_job.resize(20,20);   ///Cross Mark

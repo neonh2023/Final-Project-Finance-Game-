@@ -39,6 +39,8 @@ class bond
 
     display()
     {   
+        push();
+        translate(30, 0);
         
         push();
         translate (500,40);
@@ -90,6 +92,7 @@ class bond
                 text(this.OneYearInterest[age_va-20].rate+ "%", this.buttonX-20, this.buttonY+4);  // interest rate on 1 year bond  
             }
         
+        pop();
     }
 
     

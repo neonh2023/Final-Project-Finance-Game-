@@ -31,7 +31,7 @@ class networth
         text("Age " + this.age , 30, 50);
 
         //Net Worth
-        textSize(16);
+        textSize(20);
         text("NET WORTH: " + str(net_Worth.getNetWorth()), 30, 120);
         text("Cash to invest: " + str(net_Worth.getCashToInvest()), 30, 160);
 

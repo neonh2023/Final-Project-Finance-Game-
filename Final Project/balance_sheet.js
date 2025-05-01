@@ -18,7 +18,7 @@ class balanceSheet
 
     display()
     {
-                //Income Statement
+                //Balance Sheet
         push();
         translate(20, 600);
 
@@ -32,7 +32,7 @@ class balanceSheet
         text("Balance Sheet", 40, 260);
         
         fill(0);
-        textSize(12);       
+        textSize(15);       
         translate(0,-20);
         text("Cash ...............  " + int(this.cash), 50, 320);
         text("Equity ...........  " + str(this.equity), 50, 340);
@@ -48,7 +48,7 @@ class balanceSheet
         rect(40, 270, 200, 185); // i box x,y,w,h*
         
         fill(0);
-        textSize(12);       
+        textSize(15);       
         translate(0,-20);
         text("mortage ...............  " + int(this.mortgage), 50, 320);
         text("car loan ...........  " + str(this.car_loan), 50, 340);

@@ -77,15 +77,15 @@ class IncomeStatement
         translate(-10, -50);
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 270, 200, 150); // income box x,y,w,h*
+        rect(40, 270, 250, 150); // income box x,y,w,h*
 
        // textStyle(BOLD);
         textSize(18);
         text("Income Statement", 40, 260);
         
         fill(0);
-        textSize(12);
-        line (40, 300, 240, 300); // Just a line
+        textSize(15);
+        line (40, 300, 290, 300); // Just a line
         
         text("Income :       " + int(incomeStatement.getIncome()), 50, 290);
         text("Wage ...............  " + int(this.wage), 50, 320);
@@ -96,12 +96,12 @@ class IncomeStatement
 
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 400, 200, 190);  // expense box (x,y*,w,h*)
+        rect(40, 400, 250, 190);  // expense box (x,y*,w,h*)
 
         translate(0,-20);
         fill(0);
         text("Expenses " + int(incomeStatement.getExpenses()), 50, 440);
-        line (40, 450, 240, 450); // Just a line
+        line (40, 450, 290, 450); // Just a line
         text("living cost ...............  " + int(incomeStatement.living_cost), 50, 470);
         text("mortgage ...............  " + str(incomeStatement.mortgage_interest), 50, 490);
         text("Income tax ........" + int(this.income_tax), 50, 510);
@@ -112,7 +112,7 @@ class IncomeStatement
         translate(0,15);
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 570 , 200, 30);  // net income box (x,y*,w,h*)
+        rect(40, 570 , 250, 30);  // net income box (x,y*,w,h*)
         this.getIncomeTax();
 
         fill(0);

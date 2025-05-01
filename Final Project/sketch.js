@@ -18,6 +18,15 @@ let balance_sheet;
 
 let bond1;
 
+let greyFill = "197, 192, 171" ;
+
+let yellowFill = "241, 227, 176";
+
+let enter_button; // for Salary
+
+let enter_button1; // for living cost
+
+
 
 
 function preload()
@@ -26,6 +35,7 @@ function preload()
    cross_job = loadImage('data/cross.png');
    next = loadImage('data/next.png');
    incometax= loadImage('data/income tax rate.png');
+   enterButton = loadImage('data/enter.png');
    
 
 }
@@ -78,7 +88,7 @@ function setup()
 
    //input salary
    salaryInput = createInput('');
-   salaryInput.position(300, 102);
+   salaryInput.position(330, 102);
    salaryInput.size(130,20);
    salaryInput.attribute('placeholder', 'Enter starting salary');
    
@@ -87,17 +97,19 @@ function setup()
    {
       if (e.key === "Enter") 
       {
-        let salaryValue = int(salaryInput.value());
-        job_box.wage = isNaN(salaryValue) ? 0 : salaryValue;
-        incomeStatement.wage = job_box.wage;
-        salaryInput.remove();
+         processSalaryInput();
       }
    });
+
+     // Press Enter button - For Salary
+    enter_button = createButton('Press Enter');
+    enter_button.position(360, 130); 
+    enter_button.mousePressed(processSalaryInput);
 
 
    //Living Cost input
    living_input = createInput('');
-   living_input.position(300, 235);
+   living_input.position(340, 255);
    living_input.size(130,20);
    living_input.attribute('placeholder', 'Enter Living Cost');
    
@@ -106,11 +118,17 @@ function setup()
    {
       if (e.key === "Enter") 
       {
-        let living = int(living_input.value());
-        incomeStatement.living_cost = isNaN(living) ? 0 : living;
-        living_input.remove();
+         processLivingInput();
       }
    });
+
+     // Press Enter button - For LivingCost
+     enter_button1 = createButton('Press Enter');
+     enter_button1.position(365, 285); 
+     enter_button1.mousePressed(processLivingInput);
+
+
+
 
 
    job_box = new job();
@@ -125,6 +143,23 @@ function setup()
 
    
 }
+
+function processSalaryInput() 
+{
+   let salaryValue = int(salaryInput.value());
+   job_box.wage = isNaN(salaryValue) ? 0 : salaryValue;
+   incomeStatement.wage = job_box.wage;
+}
+
+function processLivingInput()
+{
+   let living = int(living_input.value());
+   incomeStatement.living_cost = isNaN(living) ? 0 : living;
+   living_input.remove();
+   
+}
+
+
 
 
 function draw() 
@@ -153,13 +188,14 @@ function draw()
 
    bond1.display();
 
-
   
 
 }
 
 function living_cost()
 {
+   push();
+   translate(40,20);
    push();
    translate (266,190);
 
@@ -170,22 +206,24 @@ function living_cost()
 
    translate(-38, -270);  //**********keep copying this box 
    strokeWeight(3);
-   fill(241, 227, 176);
-   rect(40, 270, 200, 80); // income box x,y,w,h*
+  
+   rect(40, 270, 200, 100); // income box x,y,w,h*
 
    pop();
    fill(0);
    strokeWeight(3);
-   textSize(12);
+   textSize(15);
    text("Living Cost: "+ int(incomeStatement.living_cost), 280, 220);
+
+   
 
    question_mark_job.resize(20,20);   ///Question mark
    image(question_mark_job, 443, 195);
 
+   pop();
+
    if (living_question1 == true)
    {
-       fill(166, 166, 166, 150);
-        rect(0, 0, windowWidth, windowHeight);    ///Make the background grey
 
         push();
         translate(0,0);
@@ -269,6 +307,7 @@ function mousePressed()
       {
          living_question1 = true;
       }
-
+   
+         
 }
 
