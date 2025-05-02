@@ -35,7 +35,7 @@ function preload()
    cross_job = loadImage('data/cross.png');
    next = loadImage('data/next.png');
    incometax= loadImage('data/income tax rate.png');
-   enterButton = loadImage('data/enter.png');
+   
    
 
 }
@@ -155,7 +155,6 @@ function processLivingInput()
 {
    let living = int(living_input.value());
    incomeStatement.living_cost = isNaN(living) ? 0 : living;
-   living_input.remove();
    
 }
 
@@ -172,7 +171,7 @@ function draw()
       }
    */
 
-  
+   
 
   
 
@@ -188,7 +187,15 @@ function draw()
 
    bond1.display();
 
-  
+   if(age_va == 69)
+      {
+   
+         fill(0);
+         rect(0,0, windowWidth, windowHeight);
+         textSize(150);
+         fill(255);
+         text('Game is over', windowWidth/3, windowHeight/4);
+      }
 
 }
 
@@ -267,7 +274,7 @@ function mousePressed()
    print(", mouseY is: ");
    print(mouseY);
 
-   if (mouseX >= 163 && mouseX <= 206 && mouseY >= 22 && mouseY <= 53) 
+   if (mouseX >= 163 && mouseX <= 206 && mouseY >= 22 && mouseY <= 53)  // Forward Sign
    {
       if(age_va = age_time)  // after i click move to the next year. net income get added to balance sheet cash
          {

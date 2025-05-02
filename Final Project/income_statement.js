@@ -4,6 +4,7 @@ class IncomeStatement
     {
       // Income sources
       this.wage;
+
       this.interest;
       this.dividend;
       this.rent_income;
@@ -71,8 +72,8 @@ class IncomeStatement
     }
 
     display()
-    {
-                //Income Statement
+    { 
+      //Income Statement
         push();
         translate(-10, -50);
         strokeWeight(3);
