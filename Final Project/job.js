@@ -41,15 +41,6 @@ class job
         image(question_mark_job, 443, 45);
 
 
-        if (job_info1 == true)
-        {
-            this.job_info1();
-
-            if (job_info2 == true)
-            {
-                this.job_info2();
-            }
-        }
 
         pop();
         
@@ -64,7 +55,7 @@ class job
     job_info1()    ////POP UP TAB
     {
         fill(166, 166, 166, 150);
-        rect(0, 0, windowWidth, windowHeight);    ///Make the background grey
+       // rect(0, 0, windowWidth, windowHeight);    ///Make the background grey
 
         push();
         translate(0,0);
@@ -99,7 +90,7 @@ class job
     job_info2()    ////POP UP TAB
     {
         fill(166, 166, 166, 150);
-        rect(0, 0, windowWidth, windowHeight);    ///Make the background grey
+       // rect(0, 0, windowWidth, windowHeight);    ///Make the background grey
 
         push();
         translate(0,0);
@@ -116,9 +107,6 @@ class job
     };
         
 
-    
-
-  
     update(values) 
     {
       Object.assign(this, values);

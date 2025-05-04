@@ -17,6 +17,7 @@ class IncomeStatement
       this.dividend_tax ;
       this.capital_gain_tax;
       this.credit_card_interest;
+
     }
   
     getIncome() 
@@ -73,12 +74,14 @@ class IncomeStatement
 
     display()
     { 
+        let x = 270;
+        let x2 = 55;
       //Income Statement
         push();
         translate(-10, -50);
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 270, 250, 150); // income box x,y,w,h*
+        rect(40, 270, 250, 125); // income box x,y,w,h*
 
        // textStyle(BOLD);
         textSize(18);
@@ -86,39 +89,73 @@ class IncomeStatement
         
         fill(0);
         textSize(15);
-        line (40, 300, 290, 300); // Just a line
+        line (40, 360, 290, 360); // Just a line
+        textAlign(LEFT);
         
-        text("Income :       " + int(incomeStatement.getIncome()), 50, 290);
-        text("Wage ...............  " + int(this.wage), 50, 320);
-        text("Interest ...........  " + str(this.interest), 50, 340);
-        text("Dividend ...........  " + str(this.dividend), 50, 360);
-        text("rent income ........  " + str(this.rent_income), 50, 380);
-      
+        text("Wage ", x2, 290);
+        text("Interest "  , x2, 310);
+        text("Dividend  " , x2, 330);
+        text("rent income " , x2, 350);
+        textStyle(BOLD);
+        text("Income :       " , x2, 380);
+        textStyle(NORMAL);
+
+        textAlign(RIGHT);
+        text(int(this.wage), x, 290);
+        text(str(this.interest), x, 310);
+        text(str(this.dividend), x, 330);
+        text(str(this.rent_income), x, 350);
+        textStyle(BOLD);
+        text(int(incomeStatement.getIncome()), x, 380);
+        textStyle(NORMAL);
+        //text(int(incomeStatement.getExpenses()), x, 440);
+
 
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 400, 250, 190);  // expense box (x,y*,w,h*)
-
+        rect(40, 390, 250, 160);  // expense box (x,y*,w,h*)
+        fill(0);
+        
         translate(0,-20);
         fill(0);
-        text("Expenses " + int(incomeStatement.getExpenses()), 50, 440);
-        line (40, 450, 290, 450); // Just a line
-        text("living cost ...............  " + int(incomeStatement.living_cost), 50, 470);
-        text("mortgage ...............  " + str(incomeStatement.mortgage_interest), 50, 490);
-        text("Income tax ........" + int(this.income_tax), 50, 510);
-        text("Dividend tax ........" + str(incomeStatement.dividend_tax), 50, 530); 
-        text("Capital Gain tax ........" + str(incomeStatement.capital_gain_tax), 50, 550);
-        text("Credit Card interest ........" + str(incomeStatement.credit_card_interest), 50, 570); 
+       // text("Expenses " + int(incomeStatement.getExpenses()), x, 440);
+        line (40, 540, 290, 540); // Just a line
 
-        translate(0,15);
+        textAlign(LEFT);
+        text("living cost", x2, 430);
+        text("mortgage", x2, 450);
+        text("Income tax", x2, 470);
+        text("Dividend tax", x2, 490); 
+        text("Capital Gain tax", x2, 510);
+        text("Credit Card interest", x2, 530); 
+
+        textStyle(BOLD);
+        textAlign(LEFT);
+        text("Expenses ", x2, 560);
+        textAlign(RIGHT);
+        text(int(incomeStatement.getExpenses()), x, 560);
+
+        textStyle(NORMAL);
+        textAlign(RIGHT);
+        text(int(incomeStatement.living_cost), x, 430);
+        text(str(incomeStatement.mortgage_interest), x, 450);
+        text(int(this.income_tax), x,470);
+        text(str(incomeStatement.dividend_tax), x, 490); 
+        text(str(incomeStatement.capital_gain_tax), x, 510);
+        text(str(incomeStatement.credit_card_interest), x, 530); 
+
+        translate(0,10);
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 570 , 250, 30);  // net income box (x,y*,w,h*)
+        rect(40, 560 , 250, 30);  // net income box (x,y*,w,h*)
         this.getIncomeTax();
 
+        textAlign(LEFT);
+        textStyle(BOLD);
         fill(0);
-        text("Net Income: " + int(incomeStatement.getNetIncome()), 50, 590);
-        
+        text("Net Income: ", x2, 580);
+        textAlign(RIGHT);
+        text(int(incomeStatement.getNetIncome()), x, 580);
 
         pop();
 

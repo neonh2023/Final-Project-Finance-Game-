@@ -187,14 +187,36 @@ function draw()
 
    bond1.display();
 
-   if(age_va == 69)
+   if(age_va == 82)
       {
-   
          fill(0);
          rect(0,0, windowWidth, windowHeight);
          textSize(150);
          fill(255);
-         text('Game is over', windowWidth/3, windowHeight/4);
+         text('Game is over', windowWidth/4, windowHeight/4);
+         
+         salaryInput.remove();
+         living_input.remove();
+         enter_button.remove();
+         enter_button1.remove();
+         stop(secondsFromNow);
+      }
+      
+
+   
+   if (job_info1 == true)
+      {
+            job_box.job_info1();
+
+            if (job_info2 == true)
+            {
+               job_box.job_info2();
+            }
+      }
+
+   if (living_question1 == true)
+      {
+         living_cost_info();
       }
 
 }
@@ -229,10 +251,12 @@ function living_cost()
 
    pop();
 
-   if (living_question1 == true)
-   {
+   
 
-        push();
+}
+function living_cost_info()
+{
+   push();
         translate(0,0);
         fill(58, 65, 53);
         rect(541,204, 740,500 );
@@ -263,7 +287,6 @@ function living_cost()
         text("  lose value over the long term.", 560, 505);
 
         pop();
-   }
 
 }
 
@@ -293,7 +316,7 @@ function mousePressed()
 
 
    // FOR JOB JS
-   if (dist(mouseX , mouseY, 443, 45) <= 20) 
+   if (dist(mouseX , mouseY, 486, 52) <= 20) 
    {
       job_info1 = true;
    }
@@ -304,13 +327,13 @@ function mousePressed()
       living_question1 = false;
    }
 
-   if (dist(mouseX, mouseY, 1262, 447) <= 20)
+   if (dist(mouseX, mouseY, 1262, 446) <= 20)
    {
       job_info2 = true;  
      
    }
 
-   if (dist(mouseX , mouseY, 443, 195) <= 20) 
+   if (dist(mouseX , mouseY, 493, 222) <= 20) 
       {
          living_question1 = true;
       }
