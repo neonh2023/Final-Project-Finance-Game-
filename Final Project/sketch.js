@@ -16,7 +16,6 @@ let living_question1;
 
 let balance_sheet;
 
-let bond1;
 
 let greyFill = "197, 192, 171" ;
 
@@ -27,6 +26,12 @@ let enter_button; // for Salary
 let enter_button1; // for living cost
 
 
+//BOND
+let bond1; //for class
+let bond_invest_amount;  // For input
+let buy_button_bond;  //for button
+
+
 
 
 function preload()
@@ -35,16 +40,10 @@ function preload()
    cross_job = loadImage('data/cross.png');
    next = loadImage('data/next.png');
    incometax= loadImage('data/income tax rate.png');
-   
-   
-
 }
 
 function setup() 
 {
-   
-  
-
  createCanvas(windowWidth, windowHeight);
  background(74, 91, 62);
 
@@ -122,26 +121,44 @@ function setup()
       }
    });
 
-     // Press Enter button - For LivingCost
-     enter_button1 = createButton('Press Enter');
-     enter_button1.position(365, 285); 
-     enter_button1.mousePressed(processLivingInput);
 
-
-
+   // Press Enter button - For LivingCost
+   enter_button1 = createButton('Press Enter');
+   enter_button1.position(365, 285); 
+   enter_button1.mousePressed(processLivingInput);
 
 
    job_box = new job();
 
+
+
    bond1 = new bond();
 
    bond1.update({
-      amount: 1000,
-      option: 2
+      amount: 0,
+      option: 0
    });
 
 
-   
+    //BOND input 
+    bond_invest_amount = createInput('');
+    bond_invest_amount.position(600, 220);
+    bond_invest_amount.size(150,20);
+    bond_invest_amount.attribute('placeholder', 'Enter Amount');
+    
+    bond_invest_amount.elt.addEventListener("keydown", function (e) 
+    {
+       if (e.key === "Enter") 
+       {
+          processBondInput();
+       }
+    });
+ 
+      // Press Enter button - For Salarydd
+     buy_button_bond = createButton('BUY');
+     buy_button_bond.position(650, 260); 
+     buy_button_bond.mousePressed(processBondInput);
+
 }
 
 function processSalaryInput() 
@@ -158,6 +175,20 @@ function processLivingInput()
    
 }
 
+function processBondInput()
+{
+   let bondValue =  int(bond_invest_amount.value());
+   bond1.amount = isNaN(bondValue) ? 0: bondValue;
+   if (bond1.amount <= balance_sheet.cash && bond1.maturity > 0) 
+   {
+      bond1.buyBond();
+   } 
+   else 
+   {
+      alert("Not Enough Cash!");
+   }
+}
+
 
 
 
@@ -170,10 +201,6 @@ function draw()
          age_va = 20;
       }
    */
-
-   
-
-  
 
    incomeStatement.display();
 
@@ -304,6 +331,7 @@ function mousePressed()
             balance_sheet.cash = balance_sheet.cash + int(incomeStatement.getNetIncome());
             age_time++;
             age_va++;
+
          }
 
       net_Worth.age = age_va;
@@ -311,6 +339,8 @@ function mousePressed()
       incomeStatement.wage = job_box.wage;
 
       incomeStatement.living_cost = incomeStatement.living_cost *1.0245;
+
+      incomeStatement.interest = 0;  // Clear interest income for the new year
 
    }
 
@@ -337,7 +367,6 @@ function mousePressed()
       {
          living_question1 = true;
       }
-   
-         
+           
 }
 

@@ -5,18 +5,26 @@ class bond
     {
         this.amount = 0;
         this.option = 0;
+        this.maturity = 0;
+
+        this.buy_amount = [];
+        this.maturity_age = [];
+        this.bond_rate=[];
+
+
 
         //1 year interest rate button
         this.buttonX = 580;
-        this.buttonY = 135;
+        this.buttonY = 175;
         this.buttonSize = 60;
         this.oney_interest = 0;  // 1962 Age 20
 
         //10 year interest rate button
         this.buttonX10 = this.buttonX + 100;
-        this.buttonY10 = 135;
+        this.buttonY10 = this.buttonY;
         this.buttonSize10 = 60;
         this.ten_y_interest = 0;  // 1962 Age 20
+
 
         this.OneYearInterest = [
             { age: "20", rate: "3.29" }, // 1962
@@ -85,7 +93,152 @@ class bond
           ];
           
 
-          this.TenYearInterest = [
+        
+        
+        
+    }
+
+    display()
+    {   
+        
+        push();
+        translate (530,40);
+
+        translate(-38, -270);  //**********keep copying this box 
+        strokeWeight(3);
+        fill(241, 227, 176);
+        rect(40, 270, 300, 250); // income box x,y,w,h*
+        
+        pop();
+
+        textSize(20);
+        textStyle(BOLD);
+        fill(0);
+        text("Goverenment Bond", 585, 70);
+        textSize(15);
+        text("(CHOOSE MATURITY LENGTH)", 570, 105);
+        textStyle(NORMAL);
+
+        fill(0);
+        strokeWeight(3);
+        textSize(12);
+        
+        
+        question_mark_job.resize(20,20);   ///Question mark
+        image(question_mark_job, 805, 45);
+
+
+        // 1 Year interest rate
+        textSize(15);
+        text("1Y", this.buttonX-9, this.buttonY-35);
+
+        strokeWeight(2);
+        let distToCenter = dist(mouseX, mouseY, this.buttonX, this.buttonY);
+
+        if (distToCenter <= this.buttonSize/2) 
+        {
+            fill(255, 255, 0);
+            if(mousePressed)
+            {
+                this.option = parseFloat(this.OneYearInterest[age_va - 20].rate);
+
+                this.maturity = 1;
+            }
+        }
+        else
+        {
+            fill(255);
+        }
+
+        circle(this.buttonX, this.buttonY, this.buttonSize);
+
+        
+        if (this.OneYearInterest.age = age_va)
+            {
+                fill(0); // Show the interest rate on 1 year bond 
+                text(this.OneYearInterest[age_va-20].rate+ "%", this.buttonX-20, this.buttonY+4);  
+            }
+
+
+        for(let i = 0; i < this.maturity_age.length; i++)
+        {
+            if (this.maturity_age[i] == age_va) 
+            {
+                let principal = this.buy_amount[i];
+                let rate = this.bond_rate[i];
+                let interest = principal * (rate / 100); // convert percentage string to decimal
+        
+                balance_sheet.cash += principal + round(interest,2);
+                incomeStatement.interest += round(interest,2);
+                balance_sheet.bond -= principal;
+        
+                // Remove matured bond from all arrays
+                this.buy_amount.splice(i, 1);
+                this.maturity_age.splice(i, 1);
+                this.bond_rate.splice(i, 1);
+                i--; // Adjust index after splice
+            }
+        }   
+    }
+
+    buyBond()
+    {
+        //incomeStatement.interest = this.amount * this.option;
+        balance_sheet.cash =  balance_sheet.cash - this.amount;
+        balance_sheet.bond = this.amount; 
+        
+        append(this.buy_amount,this.amount);
+        append(this.maturity_age, age_va + this.maturity);
+        append(this.bond_rate, this.option);
+    }
+    
+
+    update(values) 
+    {
+      Object.assign(this, values);
+    }
+
+}
+
+
+
+
+
+
+
+  /*// 10 Year interest rate
+        textSize(15);
+        text("10Y", this.buttonX10-9, this.buttonY10-35);
+
+        strokeWeight(2);
+        let distToCenter10 = dist(mouseX, mouseY, this.buttonX10, this.buttonY10);
+
+        if (distToCenter10 < this.buttonSize10/2) 
+        {
+            fill(255, 255, 0);
+            if(mousePressed)
+                {
+                    this.option = this.TenYearInterest[age_va-20].rate;
+                    this.maturity = 10;
+                }
+        }
+        else
+        {
+            fill(255);
+        }
+
+        circle(this.buttonX10, this.buttonY10, this.buttonSize10);
+
+        
+        if (this.OneYearInterest.age = age_va)
+            {
+                fill(0);
+                text(this.TenYearInterest[age_va-20].rate+ "%", this.buttonX10-20, this.buttonY10+4);  // interest rate on 10 year bond  
+            }
+          
+*/
+
+ /* this.TenYearInterest = [
             { age: "20", rate: "4.06" }, // 1962
             { age: "21", rate: "4.17" }, // 1963
             { age: "22", rate: "4.29" }, // 1964
@@ -202,98 +355,4 @@ class bond
             { age: "82", rate: "4.41" }  // 2024
           ];
           
-
-        
-        
-    }
-
-    display()
-    {   
-        
-        push();
-        translate (530,40);
-
-        translate(-38, -270);  //**********keep copying this box 
-        strokeWeight(3);
-        fill(241, 227, 176);
-        rect(40, 270, 300, 160); // income box x,y,w,h*
-        
-        pop();
-
-        textSize(20);
-        textStyle(BOLD);
-        fill(0);
-        text("Goverenment Bond", 580, 70);
-        textStyle(NORMAL);
-
-        fill(0);
-        strokeWeight(3);
-        textSize(12);
-        
-        
-        question_mark_job.resize(20,20);   ///Question mark
-        image(question_mark_job, 805, 45);
-
-
-        // 1 Year interest rate
-        textSize(15);
-        text("1Y", this.buttonX-9, this.buttonY-35);
-
-        strokeWeight(2);
-        let distToCenter = dist(mouseX, mouseY, this.buttonX, this.buttonY);
-
-        if (distToCenter <= this.buttonSize/2) 
-        {
-            fill(255, 255, 0);
-        }
-        else
-        {
-            fill(255);
-        }
-
-        circle(this.buttonX, this.buttonY, this.buttonSize);
-
-        
-        if (this.OneYearInterest.age = age_va)
-            {
-                fill(0);
-                text(this.OneYearInterest[age_va-20].rate+ "%", this.buttonX-20, this.buttonY+4);  // interest rate on 1 year bond  
-            }
-
-
-
-        // 10 Year interest rate
-        textSize(15);
-        text("10Y", this.buttonX10-9, this.buttonY10-35);
-
-        strokeWeight(2);
-        let distToCenter10 = dist(mouseX, mouseY, this.buttonX10, this.buttonY10);
-
-        if (distToCenter10 < this.buttonSize10/2) 
-        {
-            fill(255, 255, 0);
-        }
-        else
-        {
-            fill(255);
-        }
-
-        circle(this.buttonX10, this.buttonY10, this.buttonSize10);
-
-        
-        if (this.OneYearInterest.age = age_va)
-            {
-                fill(0);
-                text(this.TenYearInterest[age_va-20].rate+ "%", this.buttonX10-20, this.buttonY10+4);  // interest rate on 10 year bond  
-            }
-     
-    }
-
-    
-
-    update(values) 
-    {
-      Object.assign(this, values);
-    }
-
-}
+*/
