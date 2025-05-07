@@ -32,6 +32,11 @@ let bond_invest_amount;  // For input
 let buy_button_bond;  //for button
 
 
+//Stock
+let investmentValues = [];
+let buy_button_stock;
+let sell_button_stock;
+let buy_sell;
 
 
 function preload()
@@ -159,7 +164,69 @@ function setup()
      buy_button_bond.position(650, 260); 
      buy_button_bond.mousePressed(processBondInput);
 
+    
+
+
+
+
+   //STOCKS
+     stock_class = new stock();
+     stock_invest_amount = createInput('');
+     stock_invest_amount.position(900, 100);
+     stock_invest_amount.size(150,20);
+     stock_invest_amount.attribute('placeholder', 'Enter Amount');
+
+     stock_invest_amount.elt.addEventListener("keydown", function (e) 
+    {
+       if (e.key === "Enter") 
+       {
+           // investmentValues.append(stock_invest_amount);
+           processStockInput();
+       }
+    });
+    
+    buy_button_stock = createButton('BUY');
+    buy_button_stock.position(1078, 102); 
+    buy_button_stock.mousePressed(()=>
+      {
+         processStockInput();
+         buy_sell = True;  
+      });
+
+     /* sell_button_stock = createButton('SELL');
+      sell_button_stock.position(1140, 102); 
+      sell_button_stock.mousePressed(()=>
+        {
+           processStockInput();
+           buy_sell = False;  
+        });*/
+   
+   
+
 }
+
+
+function processStockInput()
+{
+   if (!isNaN(amt) && amt > 0 && buy_sell == True)
+   {
+      let stockValue = int(stock_invest_amount.value());
+      balance_sheet.equity += isNaN(stockValue) ? 0 : stockValue; 
+      stock_class.buy(stockValue);
+   }
+
+   /*if (!isNaN(amt) && amt > 0 && buy_sell == False)
+      {
+         let stockValue = int(stock_invest_amount.value());
+         balance_sheet.equity -= isNaN(stockValue) ? 0 : stockValue; 
+         stock_class.sell(stockValue);
+      } */
+
+
+}
+
+
+
 
 function processSalaryInput() 
 {
@@ -213,6 +280,8 @@ function draw()
    balance_sheet.display();
 
    bond1.display();
+   
+   stock_class.display();
 
    if(age_va == 82)
       {
@@ -226,25 +295,60 @@ function draw()
          living_input.remove();
          enter_button.remove();
          enter_button1.remove();
+         bond_invest_amount.remove();
+         buy_button_bond.remove();
          stop(secondsFromNow);
       }
-      
+      age_va = 65;
+      if(age_va >= 65)
+         {
+            salaryInput.remove();
+            enter_button.remove();
+            incomeStatement.wage = 0;
+            text(BOLD);
+            textSize(12);
+            text("(ENJOY YOUR RETIREMENT)", 321, 125);
+            text(NORMAL);
+         }
 
    
    if (job_info1 == true)
       {
             job_box.job_info1();
+            salaryInput.hide();
+            living_input.hide();
+            enter_button.hide();
+            enter_button1.hide();
+            bond_invest_amount.hide();
+            buy_button_bond.hide();
 
             if (job_info2 == true)
             {
                job_box.job_info2();
+               
             }
       }
 
-   if (living_question1 == true)
+   else if (living_question1 == true)
       {
          living_cost_info();
+         salaryInput.hide();
+         living_input.hide();
+         enter_button.hide();
+         enter_button1.hide();
+         bond_invest_amount.hide();
+         buy_button_bond.hide();
       }
+
+   else
+   {
+      salaryInput.show();
+      living_input.show();
+      enter_button.show();
+      enter_button1.show();
+      bond_invest_amount.show();
+      buy_button_bond.show();
+   }
 
 }
 
@@ -281,6 +385,7 @@ function living_cost()
    
 
 }
+
 function living_cost_info()
 {
    push();

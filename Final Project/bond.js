@@ -36,8 +36,9 @@ class bond
 
 
 
-        this.button_Fill_Color =  fill(255, 255, 255);;
-
+        this.button_Fill_Color =  fill(255, 255, 255);
+        this.optionSelectedAge = age_va;
+        this.selectedOption = null;
 
         this.OneYearInterest = [
             { age: "20", rate: "3.29" }, // 1962
@@ -262,20 +263,22 @@ class bond
         strokeWeight(2);
         let distToCenter = dist(mouseX, mouseY, this.buttonX, this.buttonY);
 
-        if (distToCenter <= this.buttonSize/2) 
+        if (distToCenter <= this.buttonSize/2 && mousePressed) 
         {
-            
-            if(mousePressed)
-            {
                 this.option = parseFloat(this.OneYearInterest[age_va - 20].rate);
-
                 this.maturity = 1;
-                fill(255, 255, 0);
-            }
+                this.selectedOption = "1Y";
+                this.optionSelectedAge = age_va;
+                
+            
         }
-        else
+        if (this.selectedOption === "1Y" && age_va === this.optionSelectedAge)
+            {
+                fill(255, 255, 100); // keep yellow if selected and same year
+            } 
+        else 
         {
-            fill(255);
+            fill(255); // white if not selected or year has changed
         }
 
         circle(this.buttonX, this.buttonY, this.buttonSize);
@@ -294,20 +297,23 @@ class bond
         strokeWeight(2);
         let distToCenter10 = dist(mouseX, mouseY, this.buttonX10, this.buttonY10);
 
-        if (distToCenter10 < this.buttonSize10/2) 
+        if (distToCenter10 < this.buttonSize10/2 && mousePressed) 
         {
-            fill(255, 255, 0);
-            if(mousePressed)
-                {
-                    this.option = parseFloat(this.TenYearInterest[age_va-20].rate);
-                    this.maturity = 10;
-                }
-        }
-        else
-        {
-            fill(255);
+            this.selectedOption = "10Y";
+            this.option = parseFloat(this.TenYearInterest[age_va-20].rate);
+            this.maturity = 10;
+            this.optionSelectedAge = age_va;
         }
 
+        if (this.selectedOption === "10Y" && age_va === this.optionSelectedAge)
+            {
+                fill(255, 255,100); // keep yellow if selected and same year
+            } 
+        else 
+        {
+            fill(255); // white if not selected or year has changed
+        }
+        
         circle(this.buttonX10, this.buttonY10, this.buttonSize10);
 
         
@@ -317,6 +323,8 @@ class bond
                 text(this.TenYearInterest[age_va-20].rate+ "%", this.buttonX10-20, this.buttonY10+4);  // interest rate on 10 year bond  
             }
         
+
+
             // 30 Year interest rate
         textSize(15);
         text("30Y", this.buttonX30-9, this.buttonY30-35);
@@ -324,19 +332,23 @@ class bond
         strokeWeight(2);
         let distToCenter30 = dist(mouseX, mouseY, this.buttonX30, this.buttonY30);
 
-        if (distToCenter30 < this.buttonSize30/2) 
+        if (distToCenter30 < this.buttonSize30/2 && mousePressed) 
         {
-            fill(255, 255, 0);
-            if(mousePressed)
-                {
-                    this.option = parseFloat(this.ThirtyYearInterest[age_va-20].rate);
-                    this.maturity = 30;
-                }
+            this.selectedOption = "30Y";
+            this.option = parseFloat(this.ThirtyYearInterest[age_va-20].rate);
+            this.maturity = 30;
+            this.optionSelectedAge = age_va;
+                
         }
-        else
+        if (this.selectedOption === "30Y" && age_va === this.optionSelectedAge)
+            {
+                fill(255, 255,100); // keep yellow if selected and same year
+            } 
+        else 
         {
-            fill(255);
+            fill(255); // white if not selected or year has changed
         }
+        
 
         circle(this.buttonX30, this.buttonY30, this.buttonSize30);
 
