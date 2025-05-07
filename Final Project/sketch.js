@@ -154,7 +154,7 @@ function setup()
        }
     });
  
-      // Press Enter button - For Salarydd
+      // Press Enter button - For Salary
      buy_button_bond = createButton('BUY');
      buy_button_bond.position(650, 260); 
      buy_button_bond.mousePressed(processBondInput);
@@ -185,7 +185,7 @@ function processBondInput()
    } 
    else 
    {
-      alert("Not Enough Cash!");
+      alert("Not Enough Cash! Please press next year button. Or Please Choose a bond first.");
    }
 }
 
@@ -341,6 +341,7 @@ function mousePressed()
       incomeStatement.living_cost = incomeStatement.living_cost *1.0245;
 
       incomeStatement.interest = 0;  // Clear interest income for the new year
+      bond1.maturity = 0;
 
    }
 
