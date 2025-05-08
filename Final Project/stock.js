@@ -2,12 +2,6 @@ class stock
 {
     constructor()
     {
-        this.invest_amount = [];
-
-        this.year = 0;
-
-        this.current_index = 0;
-        
         this.stock_returns = [
             { age: "20", rate: "-11.82" }, // 1962
             { age: "21", rate: "18.89" }, // 1963
@@ -75,6 +69,21 @@ class stock
             { age: "82", rate: "23.31" }  // 2024
         ];
 
+        this.stock_value = [0]; // Value change of each year get push to this array
+        this.stock_graph_y = [10000];
+
+        this.inital_investment = 0; // to calculate the tax
+
+        this.age_graph = [age_va];
+
+        //FOR TAX PURPOSE
+        this.sold = false;
+        this.sold_amount = [];
+        this.capital_gain = [];
+        this.tax = [];
+        this.cash = [];
+        this.afterTAX_income = [];
+       
     }
 
     display()
@@ -85,48 +94,146 @@ class stock
         translate(-38, -270);  //**********keep copying this box 
         strokeWeight(3);
         fill(241, 227, 176);
-        rect(40, 270, 800, 800); // income box x,y,w,h*
+        rect(40, 260, 500, 440); // income box x,y,w,h*
     
         pop();
 
         textSize(20);
         textStyle(BOLD);
         fill(0);
-        text("S&P500 Index (STOCK Market INDEX)", 1062, 70);
+        text("S&P500", 1070, 60);
+        
         textStyle(NORMAL);
 
+        text("Stock Value: " + nf(this.stock_value[this.stock_value.length-1], 1, 2), 900, 85);
         fill(0);
         strokeWeight(3);
         textSize(12);
         
         
         question_mark_job.resize(20,20);   ///Question mark
-        image(question_mark_job, 1620, 56);
+        image(question_mark_job, 1330, 40);
 
-
-
-
+        //balance sheet
+        balance_sheet.equity = round(this.stock_value[this.stock_value.length-1],1);
         
-
-
     }
 
 
     buy(amt)
     {
-        this.invest_amount.append(amt);
-        this.currentIndex = 0;
+        let last = this.stock_value[this.stock_value.length - 1] || 0;
+        this.inital_investment += amt;
+        this.stock_value.push(this.inital_investment+last);
+        this.stock_graph_y.push(this.stock_value[this.stock_value.length - 1]);
+        balance_sheet.cash -= amt;
+
     }
 
-    grow(amt)
+    grow()
     {
-        this.currentIndex++;
-        let last = this.invest_amount[this.invest_amount.length - 1];
-        let newValue = last*(1+ this.stock_returns.rate[this.current_index])/100;
-        this.invest_amount.push(newValue);
+        
+        let last = this.stock_value[this.stock_value.length - 1] || 0;
+        let rate = parseFloat(this.stock_returns[age_va - 20].rate) / 100;
+        let newVal = last * (1 + rate);
+        this.stock_value.push(newVal);
+        this.age_graph.push(age_va);
+        
+        
+    }       
 
+
+    sell(amt)
+    {
+        let last = this.stock_value[this.stock_value.length - 1];
+        let gain = (last - this.inital_investment) * (amt/this.inital_investment);
+        this.capital_gain.push(gain);
+
+        if (gain > 0)
+        {
+            this.tax.push(gain * .20);
+            this.sold = true;
+        }
+
+        this.sold_amount.push(amt);
+
+        this.cash.push(amt - this.tax[this.tax.length-1]);
+
+        this.stock_value.push(last - amt);
+
+        //balance Sheet
+       // balance_sheet.cash += this.cash[this.cash.length-1];
+
+        //income Statement
+        incomeStatement.capital_gain = gain;
+        incomeStatement.capital_gain_tax = this.tax[this.tax.length-1]; 
+
+        this.afterTAX_income.push(gain-this.tax[this.tax.length-1]);
     }
 
 
-    
+    drawGraph()
+    {
+        push();
+        let maxValue = max(this.stock_value);
+        let yStep = 10000;
+        while (maxValue / yStep > 10) yStep *= 2;
+
+        //line(875, 427, 1246, 427); // x-axis  371
+        line(950, 427, 1321 , 427);
+        line(950, 427, 950, 141);   // y-axis
+
+        // x label
+        textAlign(CENTER);
+       // fill(0);
+        textSize(15);
+        for (let i = 0; i < this.age_graph.length; i += 5) 
+        {
+            let x = map(i, 0, this.stock_value.length - 1, 950 , 1135);
+            text(this.age_graph[i], x,  427 + 20);
+        }
+
+        // y label
+        textAlign(RIGHT);
+
+        for (let i = 0; i <= maxValue; i += yStep) 
+        {
+            let y = map(i, 0, maxValue, 427, 141);
+            text("$" + nf(i, 1, 0), 950 - 10, y + 5);
+            //stroke(230);
+            strokeWeight(.5);
+            line(950, y, 1321, y);
+        }
+
+        //graph
+        strokeWeight(2);
+        noFill();
+        stroke(50, 150, 50);
+        beginShape();
+        for (let i = 0; i < this.stock_value.length; i++) {
+        let x = map(i, 0, this.stock_returns.length - 1, 950, 1321);
+        let y = map(this.stock_value[i], 0, maxValue, 427, 141);
+        vertex(x, y);
+        }
+        endShape();
+        pop();
+
+        if (this.sold) {
+      
+            textSize(25);
+            textStyle(BOLD);
+            text("Sold Amount: $" + nf(this.sold_amount[this.sold_amount.length-1], 1, 2), 980 , 210);
+            text("Capital Gains: $" + nf(this.capital_gain[this.capital_gain.length-1], 1, 2), 980, 250);
+            text("Capital Gains Tax (20% FLAT): $" + nf(this.tax[this.tax.length-1], 1, 2), 980, 290);
+            text("After Tax income: $" + nf(this.afterTAX_income[this.afterTAX_income.length-1], 1, 2), 980, 330);
+
+            textStyle(NORMAL);
+
+          }
+        
+        textSize(15);
+        textAlign(LEFT);
+    }
+
+ 
 }

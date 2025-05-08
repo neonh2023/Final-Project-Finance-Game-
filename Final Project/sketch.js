@@ -33,7 +33,8 @@ let buy_button_bond;  //for button
 
 
 //Stock
-let investmentValues = [];
+
+let stock_class;
 let buy_button_stock;
 let sell_button_stock;
 let buy_sell;
@@ -62,7 +63,7 @@ function setup()
    wage: 0,
    interest: 0,
    dividend: 0,
-   rent_income: 0,
+   capital_gain: 0,
    miscellaneous: 0,
    living_cost: 0,
    mortgage_interest: 0,
@@ -170,6 +171,7 @@ function setup()
 
 
    //STOCKS
+
      stock_class = new stock();
      stock_invest_amount = createInput('');
      stock_invest_amount.position(900, 100);
@@ -185,44 +187,47 @@ function setup()
        }
     });
     
-    buy_button_stock = createButton('BUY');
-    buy_button_stock.position(1078, 102); 
-    buy_button_stock.mousePressed(()=>
+   buy_button_stock = createButton('BUY');
+   buy_button_stock.position(1078, 102); 
+   buy_button_stock.mousePressed(()=>
       {
+         buy_sell = true;  
          processStockInput();
-         buy_sell = True;  
+        
       });
 
-     /* sell_button_stock = createButton('SELL');
-      sell_button_stock.position(1140, 102); 
-      sell_button_stock.mousePressed(()=>
-        {
-           processStockInput();
-           buy_sell = False;  
-        });*/
-   
-   
+
+   sell_button_stock = createButton('SELL');
+   sell_button_stock.position(1140, 102); 
+   sell_button_stock.mousePressed(()=>
+      {
+         buy_sell = false;
+         processStockInput();
+          
+      })
 
 }
 
 
 function processStockInput()
 {
-   if (!isNaN(amt) && amt > 0 && buy_sell == True)
-   {
-      let stockValue = int(stock_invest_amount.value());
-      balance_sheet.equity += isNaN(stockValue) ? 0 : stockValue; 
-      stock_class.buy(stockValue);
-   }
-
-   /*if (!isNaN(amt) && amt > 0 && buy_sell == False)
+   let amt = int(stock_invest_amount.value());
+   
+   if (!isNaN(amt) && amt > 0 && buy_sell == true && balance_sheet.cash > amt) 
       {
-         let stockValue = int(stock_invest_amount.value());
-         balance_sheet.equity -= isNaN(stockValue) ? 0 : stockValue; 
-         stock_class.sell(stockValue);
-      } */
+         stock_class.buy(amt);
+      }
+      else if(balance_sheet.cash < amt && buy_sell == true){
+         alert("Not Enough Cash! Or Not a NUMBER.");
+      }
 
-
+   else if (!isNaN(amt) && amt > 0 && buy_sell == false && balance_sheet.equity > amt )
+      {
+         stock_class.sell(amt);
+      } 
+      else if(balance_sheet.equity < amt && buy_sell == false){
+         alert("Not Enough Stock! Or Not a NUMBER.");
+      }
 }
 
 
@@ -262,12 +267,6 @@ function processBondInput()
 function draw() 
 {
    background(74, 91, 62);
-   //Net Worth and Age
-   /*if(age_va >= 65)
-      {
-         age_va = 20;
-      }
-   */
 
    incomeStatement.display();
 
@@ -282,6 +281,9 @@ function draw()
    bond1.display();
    
    stock_class.display();
+
+   stock_class.drawGraph();
+
 
    if(age_va == 82)
       {
@@ -299,7 +301,7 @@ function draw()
          buy_button_bond.remove();
          stop(secondsFromNow);
       }
-      age_va = 65;
+      //age_va = 65;
       if(age_va >= 65)
          {
             salaryInput.remove();
@@ -431,13 +433,17 @@ function mousePressed()
 
    if (mouseX >= 163 && mouseX <= 206 && mouseY >= 22 && mouseY <= 53)  // Forward Sign
    {
-      if(age_va = age_time)  // after i click move to the next year. net income get added to balance sheet cash
-         {
+      
             balance_sheet.cash = balance_sheet.cash + int(incomeStatement.getNetIncome());
             age_time++;
             age_va++;
 
-         }
+            //stock_class.age_graph.push(age_va);
+         
+
+      stock_class.age_graph.push(age_va);
+      stock_class.sold = false;
+
 
       net_Worth.age = age_va;
       job_box.wage =  job_box.wage * 1.06;  // Wage increase because of inflation. 
@@ -447,6 +453,8 @@ function mousePressed()
 
       incomeStatement.interest = 0;  // Clear interest income for the new year
       bond1.maturity = 0;
+
+      stock_class.grow();
 
    }
 

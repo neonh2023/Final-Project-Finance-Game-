@@ -7,7 +7,7 @@ class IncomeStatement
 
       this.interest;
       this.dividend;
-      this.rent_income;
+      this.capital_gain;
       this.miscellaneous;
   
       // Expenses
@@ -22,7 +22,7 @@ class IncomeStatement
   
     getIncome() 
     {
-      return this.wage + this.interest + this.dividend + this.rent_income + this.miscellaneous;
+      return this.wage + this.interest + this.dividend + this.capital_gain + this.miscellaneous;
     }
   
     getExpenses() 
@@ -95,7 +95,7 @@ class IncomeStatement
         text("Wage ", x2, 290);
         text("Interest "  , x2, 310);
         text("Dividend  " , x2, 330);
-        text("rent income " , x2, 350);
+        text("Capital Gain " , x2, 350);
         textStyle(BOLD);
         text("Income :       " , x2, 380);
         textStyle(NORMAL);
@@ -104,7 +104,7 @@ class IncomeStatement
         text(int(this.wage), x, 290);
         text(str(this.interest), x, 310);
         text(str(this.dividend), x, 330);
-        text(str(this.rent_income), x, 350);
+        text(int(this.capital_gain), x, 350);
         textStyle(BOLD);
         text(int(incomeStatement.getIncome()), x, 380);
         textStyle(NORMAL);
@@ -141,7 +141,7 @@ class IncomeStatement
         text(str(incomeStatement.mortgage_interest), x, 450);
         text(int(this.income_tax), x,470);
         text(str(incomeStatement.dividend_tax), x, 490); 
-        text(str(incomeStatement.capital_gain_tax), x, 510);
+        text(int(incomeStatement.capital_gain_tax), x, 510);
         text(str(incomeStatement.credit_card_interest), x, 530); 
 
         translate(0,10);
