@@ -105,7 +105,7 @@ class stock
         
         textStyle(NORMAL);
 
-        text("Stock Value: " + nf(this.stock_value[this.stock_value.length-1], 1, 2), 900, 85);
+        text("Stock Value: $" + nf(this.stock_value[this.stock_value.length-1], 1, 2), 900, 85);
         fill(0);
         strokeWeight(3);
         textSize(12);
@@ -124,7 +124,7 @@ class stock
     {
         let last = this.stock_value[this.stock_value.length - 1] || 0;
         this.inital_investment += amt;
-        this.stock_value.push(this.inital_investment+last);
+        this.stock_value.push(amt+last);
         this.stock_graph_y.push(this.stock_value[this.stock_value.length - 1]);
         balance_sheet.cash -= amt;
 
@@ -169,6 +169,8 @@ class stock
         incomeStatement.capital_gain_tax = this.tax[this.tax.length-1]; 
 
         this.afterTAX_income.push(gain-this.tax[this.tax.length-1]);
+
+        this.inital_investment -= amt;
     }
 
 
@@ -189,7 +191,7 @@ class stock
         textSize(15);
         for (let i = 0; i < this.age_graph.length; i += 5) 
         {
-            let x = map(i, 0, this.stock_value.length - 1, 950 , 1135);
+            let x = map(i, 0, this.stock_returns.length - 1, 950 , 1321);
             text(this.age_graph[i], x,  427 + 20);
         }
 
@@ -222,10 +224,12 @@ class stock
       
             textSize(25);
             textStyle(BOLD);
-            text("Sold Amount: $" + nf(this.sold_amount[this.sold_amount.length-1], 1, 2), 980 , 210);
-            text("Capital Gains: $" + nf(this.capital_gain[this.capital_gain.length-1], 1, 2), 980, 250);
-            text("Capital Gains Tax (20% FLAT): $" + nf(this.tax[this.tax.length-1], 1, 2), 980, 290);
-            text("After Tax income: $" + nf(this.afterTAX_income[this.afterTAX_income.length-1], 1, 2), 980, 330);
+            text("Sold Amount: $" + nf(this.sold_amount[this.sold_amount.length-1], 1, 2), 880 , 210);
+            text("Capital Gains: $" + nf(this.capital_gain[this.capital_gain.length-1], 1, 2), 880, 250);
+            text("Capital Gains Tax: - $" + nf(this.tax[this.tax.length-1], 1, 2), 880, 290);
+            text("After Tax income: $" + nf(this.afterTAX_income[this.afterTAX_income.length-1], 1, 2), 880, 330);
+
+            
 
             textStyle(NORMAL);
 

@@ -7,6 +7,7 @@ class balanceSheet
         this.equity = 0;
         this.bond = 0;
         this.home = 0;
+        this.gold = 0;
 
         // Liability
         this.mortgage = 0;
@@ -40,16 +41,19 @@ class balanceSheet
         textSize(15);       
         translate(0,-20);
         textAlign(LEFT);
-        text("Cash ", x, 320);
-        text("Equity ", x, 340);
-        text("Bond ", x, 360);
-        text("Home", x, 380);
+        text("Cash ", x, 310);
+        text("Equity ", x, 330);
+        text("Bond ", x, 350);
+        text("Home", x, 370);
+        text("Gold", x, 390);
 
         textAlign(RIGHT);
-        text(int(this.cash), x2, 320);
-        text(str(this.equity), x2, 340);
-        text(str(this.bond), x2, 360);
-        text(str(this.home), x2, 380);
+        text(int(this.cash), x2, 310);
+        text(str(this.equity), x2, 330);
+        text(str(this.bond), x2, 350);
+        text(str(this.home), x2, 370);
+        text(str(this.gold), x2, 390);
+
 
         
 
@@ -103,7 +107,7 @@ class balanceSheet
 
     getAsset() 
     {
-      return (this.cash + this.equity + this.bond + this.home);
+      return (this.cash + this.equity + this.bond + this.home + this.gold);
     }
   
     getLiabilities() 

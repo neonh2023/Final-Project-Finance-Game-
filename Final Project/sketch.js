@@ -40,6 +40,14 @@ let sell_button_stock;
 let buy_sell;
 
 
+//let Gold
+let goldclass;
+let buy_button_gold;
+let sell_button_gold;
+let buy_sell_gold;
+
+
+
 function preload()
 {
    question_mark_job = loadImage('data/Question_mark.png');
@@ -206,8 +214,56 @@ function setup()
           
       })
 
+
+
+   //GOLD CLASS
+   goldclass = new gold();
+   gold_invest_amount = createInput('');
+   gold_invest_amount.position(1420, 136);
+   gold_invest_amount.size(150,20);
+   gold_invest_amount.attribute('placeholder', 'Enter Amount'); 
+
+   buy_button_gold = createButton('BUY');
+   buy_button_gold.position(1590, 140); 
+   buy_button_gold.mousePressed(()=>
+      {
+         buy_sell_gold = true;  
+         processGoldInput();
+        
+      });
+
+
+   sell_button_gold = createButton('SELL');
+   sell_button_gold.position(1650, 140); 
+   sell_button_gold.mousePressed(()=>
+      {
+         buy_sell_gold = false;
+         processGoldInput();
+          
+      })
+
 }
 
+function processGoldInput()
+{
+   let amt = int(gold_invest_amount.value());
+   
+   if (!isNaN(amt) && amt > 0 && buy_sell_gold == true && balance_sheet.cash > amt) 
+      {
+         goldclass.buy(amt);
+      }
+      else if(balance_sheet.cash < amt && buy_sell_gold== true){
+         alert("Not Enough Cash! Or Not a NUMBER.");
+      }
+
+   else if (!isNaN(amt) && amt > 0 && buy_sell_gold == false && balance_sheet.gold > amt )
+      {
+         goldclass.sell(amt);
+      } 
+      else if(balance_sheet.equity < amt && buy_sell_gold == false){
+         alert("Not Enough Stock! Or Not a NUMBER.");
+      }
+}
 
 function processStockInput()
 {
@@ -284,6 +340,9 @@ function draw()
 
    stock_class.drawGraph();
 
+   goldclass.display();
+   goldclass.drawGraph();
+
 
    if(age_va == 82)
       {
@@ -351,6 +410,8 @@ function draw()
       bond_invest_amount.show();
       buy_button_bond.show();
    }
+
+   
 
 }
 
@@ -441,8 +502,10 @@ function mousePressed()
             //stock_class.age_graph.push(age_va);
          
 
-      stock_class.age_graph.push(age_va);
+      //stock_class.age_graph.push(age_va);
       stock_class.sold = false;
+
+      goldclass.sold = false;
 
 
       net_Worth.age = age_va;
@@ -455,6 +518,7 @@ function mousePressed()
       bond1.maturity = 0;
 
       stock_class.grow();
+      goldclass.grow();
 
    }
 
