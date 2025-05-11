@@ -32,8 +32,8 @@ class networth
 
         //Net Worth
         textSize(20);
-        text("NET WORTH: " + str(net_Worth.getNetWorth()), 30, 120);
-        text("Cash to invest: " + str(net_Worth.getCashToInvest()), 30, 160);
+        text("NET WORTH: " + str(balance_sheet.getEquity()), 30, 120);
+        text("Cash to invest: " + str(balance_sheet.cash), 30, 160);
 
         // forward sign
         textSize(20);

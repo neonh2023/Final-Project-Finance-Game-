@@ -38,7 +38,7 @@ class balanceSheet
         text("Balance Sheet", 40, 260);
         
         fill(0);
-        textSize(15);       
+        textSize(18);       
         translate(0,-20);
         textAlign(LEFT);
         text("Cash ", x, 310);
@@ -72,7 +72,7 @@ class balanceSheet
         rect(40, 270, 210, 185); // i box x,y,w,h*
         
         fill(0);
-        textSize(15);       
+        textSize(18);       
         translate(0,-20);
         textStyle(NORMAL);
         textAlign(LEFT);

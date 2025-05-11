@@ -32,7 +32,7 @@ class job
 
         fill(0);
         strokeWeight(3);
-        textSize(15);
+        textSize(18);
         
         text("Salary: " + int(this.new_wage()), 280, 70);
         text("Income tax: "+ int(incomeStatement.income_tax), 280, 90);

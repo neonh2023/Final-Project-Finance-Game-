@@ -49,6 +49,9 @@ let buy_sell_gold;
 //let home
 let home;
 
+//animation
+let showHomerCry = false;
+let showMoneyHomer = false;
 
 
 
@@ -61,10 +64,11 @@ function preload()
    home_image = loadImage('data/House.png');
 
 
-   homerGif = createImg('data/Sad Homer Simpson GIF.gif');
-   homer_crying_sound = loadSound('data/homer_crying.mp3');
+   homerGif = loadImage('data/Sad Homer Simpson GIF.gif');
 
-   money_homer=createImg('data/money_homer.gif'); 
+   money_homer=loadImage('data/money_homer.gif'); 
+
+   thirtypercent = loadImage('data/thirtypercent.png');
 }
 
 function setup() 
@@ -421,7 +425,7 @@ function processBondInput()
       home.display();
    
 
-
+   //age_va =82;
       if(age_va == 82)
          {
             fill(0);
@@ -429,13 +433,29 @@ function processBondInput()
             textSize(150);
             fill(255);
             text('Game is over', windowWidth/4, windowHeight/4);
-            
+
+            push();
+            translate(0,-30);
+            textSize(50);
+            text('Your net worth is: $' + int(balance_sheet.getEquity()), windowWidth/4, windowHeight/2);
+            text('Your age is: ' + age_va, windowWidth/4, windowHeight/2 + 50);
+           // text('Your cash is: $' + int(balance_sheet.cash), windowWidth/4, windowHeight/2 + 100);
+            text('Your living cost is: $' + int(incomeStatement.living_cost), windowWidth/4, windowHeight/2 + 100);
+             pop()
             salaryInput.remove();
             living_input.remove();
             enter_button.remove();
             enter_button1.remove();
             bond_invest_amount.remove();
             buy_button_bond.remove();
+            buy_button_stock.remove();
+            sell_button_stock.remove();
+            buy_button_gold.remove();
+            gold_invest_amount.remove();
+            sell_button_gold.remove();
+            buy_button_home.remove();
+            mortgage_button_home.remove();
+            stock_invest_amount.remove();
             stop(secondsFromNow);
          }
          //age_va = 65;
@@ -448,6 +468,7 @@ function processBondInput()
                textSize(12);
                text("(ENJOY YOUR RETIREMENT)", 321, 125);
                text(NORMAL);
+               incomeStatement.wage = 0;
             }
 
       
@@ -493,35 +514,37 @@ function processBondInput()
       {
          homer_crying();
       }
-      else if (incomeStatement.getNetIncome() > incomeStatement.getIncome()*0.3  && incomeStatement.getExpenses() > incomeStatement.income_tax)
+      if (incomeStatement.getNetIncome() > incomeStatement.getIncome()*0.3  && incomeStatement.getExpenses() > incomeStatement.income_tax)
       {
          homer_rich();
+      }
+
+      if (showHomerCry) 
+      {
+         image(homerGif, 480, 330, 360, 300);
+      
+      }
+
+      if (showMoneyHomer) 
+      {
+         image(money_homer, 480, 330, 360, 300);
+      
+         image(thirtypercent, 280, 330, 200, 200);
       }
 
    }
 
    function homer_crying()
    {
-      //image
-      homerGif.size(360, 300);
-      homerGif.position(480, 330);
-      homerGif.show(); // Show and animate the GIF
+      showHomerCry = true;
+      showMoneyHomer = false;
 
-      homer_crying_sound.play();
-      homer_crying_sound.volume(0.3);
-      homer_crying_sound.noLoop();
-      // homer_crying_sound.setVolume(0.3);
    }
 
    function homer_rich()
    {
-      //image
-      money_homer.size(360, 300);
-      money_homer.position(480, 330);
-      money_homer.show(); // Show and animate the GIF
-
-     // homer_crying_sound.stop();
-      // homer_crying_sound.setVolume(0.3);
+       showMoneyHomer = true;
+       showHomerCry = false;
    }
 
 
@@ -546,7 +569,7 @@ function processBondInput()
       pop();
       fill(0);
       strokeWeight(3);
-      textSize(15);
+      textSize(18);
       text("Living Cost: "+ int(incomeStatement.living_cost), 280, 220);
 
       
@@ -637,11 +660,9 @@ function processBondInput()
 
 
          //Animation
-         
-         homerGif.hide();
-         money_homer.hide();
+         showHomerCry = false;
+         showMoneyHomer = false;
          homer_crying_sound.stop();
-
       }
 
 

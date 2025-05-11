@@ -99,7 +99,7 @@ class house
 
        // text("House Cost: $" + int(this.house_cost), 30, 65);
         text("Mort. pay.: $" + int(this.mortgage_payment), 250, 65);
-        text("Mort. inter. rate:" + int(this.mortgage_rate[age_va].rate) + "%", 30, 90);
+        text("Mort. inter. rate:" + int(this.mortgage_rate[age_va-20].rate) + "%", 30, 90);
         text("Mortgage: $" + int(this.mortgage_left), 250, 90);
         
         fill(0);
@@ -132,7 +132,7 @@ class house
     {
         balance_sheet.home = amt;
 
-        this.mortgage_payment = (amt * this.mortgage_rate[age_va].rate) / (100*12);
+        this.mortgage_payment = (amt * this.mortgage_rate[age_va-20].rate) / (100*12);
         incomeStatement.mortgage_interest = this.mortgage_payment;
 
         this.mortgage_left = amt;

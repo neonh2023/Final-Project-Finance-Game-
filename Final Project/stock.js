@@ -74,6 +74,7 @@ class stock
 
         this.inital_investment = []; // to calculate the tax
         this.ave_price;
+        this.sum = 0;
 
         this.age_graph = [age_va];
 
@@ -128,13 +129,9 @@ class stock
         this.stock_value.push(amt+last);
         this.stock_graph_y.push(this.stock_value[this.stock_value.length - 1]);
         balance_sheet.cash -= amt;
-        let sum = 0;
-         for (let i = 0; i <this.inital_investment.length; i++)
-            {
-                sum+=this.inital_investment[i];
-
-            }
-        this.ave_price = (sum/this.inital_investment.length);
+        this.sum += amt;
+        
+        this.ave_price = (this.sum / this.inital_investment.length);
     }
 
     grow()

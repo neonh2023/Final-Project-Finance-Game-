@@ -88,7 +88,7 @@ class IncomeStatement
         text("Income Statement", 40, 260);
         
         fill(0);
-        textSize(15);
+        textSize(18);
         line (40, 360, 290, 360); // Just a line
         textAlign(LEFT);
         
@@ -154,7 +154,11 @@ class IncomeStatement
         textAlign(LEFT);
         textStyle(BOLD);
         fill(0);
-        text("Net Income: " + int((incomeStatement.getNetIncome()/incomeStatement.getIncome())*100) + "%", x2, 580);
+        if(this.getNetIncome() > 0)
+        {
+            text("Net Income: " + int((incomeStatement.getNetIncome()/incomeStatement.getIncome())*100) + "%", x2, 580);
+        }
+       
         textAlign(RIGHT);
         text(int(incomeStatement.getNetIncome()), x, 580);
 
