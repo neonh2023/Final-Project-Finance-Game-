@@ -51,7 +51,7 @@ class balanceSheet
         text(int(this.cash), x2, 310);
         text(str(this.equity), x2, 330);
         text(str(this.bond), x2, 350);
-        text(str(this.home), x2, 370);
+        text(int(this.home), x2, 370);
         text(str(this.gold), x2, 390);
 
 

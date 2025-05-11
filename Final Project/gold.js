@@ -107,38 +107,43 @@ class gold
 
     sell(amt)
     {
-        let last = this.ounce_total[this.ounce_total.length - 1] || 0;
-        
-        let last_dollar = last * this.goldPrices[age_va-1];
+        let current_price = this.goldPrices[age_va - 20];
+        let ounce_sell = amt / current_price;
+        let total_ounce = this.ounce_total[this.ounce_total.length - 1];
 
-        let ounce_sell = amt / this.goldPrices[age_va-1];
+        if (ounce_sell > total_ounce) {
+            alert("Not enough gold to sell!");
+            return;
+        }
 
-        this.ounce_total.push(this.ounce_total[this.ounce_total.length-1] - ounce_sell);
-
-        let gain = (last_dollar - this.inital_investment_gold_dollar) * (amt/this.inital_investment_gold_dollar);
+        let avg_cost_per_oz = this.inital_investment_gold_dollar / total_ounce;
+        let cost_basis = ounce_sell * avg_cost_per_oz;
+        let gain = amt - cost_basis;
 
         this.capital_gain.push(gain);
 
-        if (gain > 0)
-        {
-            this.tax.push(gain * .20);
+        let tax_paid = 0;
+        if (gain > 0) {
+            tax_paid = gain * 0.2;
+            this.tax.push(tax_paid);
             this.sold = true;
+        } else {
+            this.tax.push(0);
         }
 
         this.sold_amount.push(amt);
+        this.cash.push(amt - tax_paid);
 
-        this.cash.push(amt - this.tax[this.tax.length-1]);
+        let new_ounce = total_ounce - ounce_sell;
+        if (new_ounce < 0) new_ounce = 0;
+        this.ounce_total.push(new_ounce);
+        this.gold_value.push(new_ounce * current_price);
 
-        this.gold_value.push(last_dollar - amt);
+        incomeStatement.capital_gain += gain;
+        incomeStatement.capital_gain_tax += tax_paid;
+        this.afterTAX_income.push(gain - tax_paid);
 
-        //income Statement
-        incomeStatement.capital_gain = gain;
-        incomeStatement.capital_gain_tax = this.tax[this.tax.length-1]; 
-
-        this.afterTAX_income.push(gain-this.tax[this.tax.length-1]);
-
-        this.inital_investment_gold_dollar -= amt;
-
+        this.inital_investment_gold_dollar -= cost_basis;
     }
 
     drawGraph()

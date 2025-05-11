@@ -46,6 +46,10 @@ let buy_button_gold;
 let sell_button_gold;
 let buy_sell_gold;
 
+//let home
+let home;
+
+
 
 
 function preload()
@@ -54,6 +58,13 @@ function preload()
    cross_job = loadImage('data/cross.png');
    next = loadImage('data/next.png');
    incometax= loadImage('data/income tax rate.png');
+   home_image = loadImage('data/House.png');
+
+
+   homerGif = createImg('data/Sad Homer Simpson GIF.gif');
+   homer_crying_sound = loadSound('data/homer_crying.mp3');
+
+   money_homer=createImg('data/money_homer.gif'); 
 }
 
 function setup() 
@@ -61,11 +72,17 @@ function setup()
  createCanvas(windowWidth, windowHeight);
  background(74, 91, 62);
 
- //Net Worth
-   net_Worth = new networth();
-   
+ 
 
-//Income Statement
+
+
+
+
+   //Net Worth
+   net_Worth = new networth();
+
+
+ //Income Statement
    incomeStatement = new IncomeStatement();
    incomeStatement.update({
    wage: 0,
@@ -114,7 +131,7 @@ function setup()
       }
    });
 
-     // Press Enter button - For Salary
+   // Press Enter button - For Salary
     enter_button = createButton('Press Enter');
     enter_button.position(360, 130); 
     enter_button.mousePressed(processSalaryInput);
@@ -242,7 +259,59 @@ function setup()
           
       })
 
+   //HOME
+   home = new house();
+   buy_button_home = createButton('BUY CASH');
+   buy_button_home.position(900, 585); 
+   buy_button_home.mousePressed(()=>
+      {
+         Cash_processHomeInput();
+      
+      });
+
+   mortgage_button_home = createButton('Mortgage');
+   mortgage_button_home.position(1250, 585);
+   mortgage_button_home.mousePressed(()=>
+      {
+         mortgage_processHomeInput();
+      });
+
+   function Cash_processHomeInput()
+   {
+      let amt = home.house_cost;
+
+      if (!isNaN(amt) && amt > 0 && balance_sheet.cash > amt)
+      {
+         home.buy(amt);
+         
+      }
+
+      else if(balance_sheet.cash < amt)
+      {
+         alert("Not Enough Cash! Or Not a NUMBER.");
+      }
+   }
+
+   function mortgage_processHomeInput()
+   {
+      let amt = home.house_cost;
+      let mortgage_payment = (amt * home.mortgage_rate[age_va].rate) / (100*12);
+
+      if (!isNaN(amt) && amt > 0 && incomeStatement.getNetIncome() > mortgage_payment) 
+      {
+         home.mortgage(amt);
+         
+      }
+
+      else if(incomeStatement.getNetIncome() < mortgage_payment)
+      {
+         alert("Not Enough Cash! Or Not a NUMBER.");
+      }
+   }
 }
+
+
+
 
 function processGoldInput()
 {
@@ -294,6 +363,12 @@ function processSalaryInput()
    let salaryValue = int(salaryInput.value());
    job_box.wage = isNaN(salaryValue) ? 0 : salaryValue;
    incomeStatement.wage = job_box.wage;
+   
+   if (home.house_cost == 0)
+   {
+      home.update({house_cost: salaryValue*12});
+   }
+  
 }
 
 function processLivingInput()
@@ -320,231 +395,278 @@ function processBondInput()
 
 
 
-function draw() 
-{
-   background(74, 91, 62);
+   function draw() 
+   {
+      background(74, 91, 62);
 
-   incomeStatement.display();
+      incomeStatement.display();
 
-   net_Worth.display();
+      net_Worth.display();
 
-   job_box.display();
+      job_box.display();
 
-   living_cost();
+      living_cost();
 
-   balance_sheet.display();
+      balance_sheet.display();
 
-   bond1.display();
+      bond1.display();
+      
+      stock_class.display();
+
+      stock_class.drawGraph();
+
+      goldclass.display();
+      goldclass.drawGraph();
+
+      home.display();
    
-   stock_class.display();
-
-   stock_class.drawGraph();
-
-   goldclass.display();
-   goldclass.drawGraph();
 
 
-   if(age_va == 82)
-      {
-         fill(0);
-         rect(0,0, windowWidth, windowHeight);
-         textSize(150);
-         fill(255);
-         text('Game is over', windowWidth/4, windowHeight/4);
-         
-         salaryInput.remove();
-         living_input.remove();
-         enter_button.remove();
-         enter_button1.remove();
-         bond_invest_amount.remove();
-         buy_button_bond.remove();
-         stop(secondsFromNow);
-      }
-      //age_va = 65;
-      if(age_va >= 65)
+      if(age_va == 82)
          {
+            fill(0);
+            rect(0,0, windowWidth, windowHeight);
+            textSize(150);
+            fill(255);
+            text('Game is over', windowWidth/4, windowHeight/4);
+            
             salaryInput.remove();
+            living_input.remove();
             enter_button.remove();
-            incomeStatement.wage = 0;
-            text(BOLD);
-            textSize(12);
-            text("(ENJOY YOUR RETIREMENT)", 321, 125);
-            text(NORMAL);
+            enter_button1.remove();
+            bond_invest_amount.remove();
+            buy_button_bond.remove();
+            stop(secondsFromNow);
+         }
+         //age_va = 65;
+         if(age_va >= 65)
+            {
+               salaryInput.remove();
+               enter_button.remove();
+               incomeStatement.wage = 0;
+               text(BOLD);
+               textSize(12);
+               text("(ENJOY YOUR RETIREMENT)", 321, 125);
+               text(NORMAL);
+            }
+
+      
+      if (job_info1 == true)
+         {
+               job_box.job_info1();
+               salaryInput.hide();
+               living_input.hide();
+               enter_button.hide();
+               enter_button1.hide();
+               bond_invest_amount.hide();
+               buy_button_bond.hide();
+
+               if (job_info2 == true)
+               {
+                  job_box.job_info2();
+                  
+               }
          }
 
-   
-   if (job_info1 == true)
-      {
-            job_box.job_info1();
+      else if (living_question1 == true)
+         {
+            living_cost_info();
             salaryInput.hide();
             living_input.hide();
             enter_button.hide();
             enter_button1.hide();
             bond_invest_amount.hide();
             buy_button_bond.hide();
+         }
 
-            if (job_info2 == true)
-            {
-               job_box.job_info2();
-               
-            }
-      }
-
-   else if (living_question1 == true)
+      else
       {
-         living_cost_info();
-         salaryInput.hide();
-         living_input.hide();
-         enter_button.hide();
-         enter_button1.hide();
-         bond_invest_amount.hide();
-         buy_button_bond.hide();
+         salaryInput.show();
+         living_input.show();
+         enter_button.show();
+         enter_button1.show();
+         bond_invest_amount.show();
+         buy_button_bond.show();
+      }
+ 
+      if (incomeStatement.getNetIncome() < 0)
+      {
+         homer_crying();
+      }
+      else if (incomeStatement.getNetIncome() > incomeStatement.getIncome()*0.3  && incomeStatement.getExpenses() > incomeStatement.income_tax)
+      {
+         homer_rich();
       }
 
-   else
-   {
-      salaryInput.show();
-      living_input.show();
-      enter_button.show();
-      enter_button1.show();
-      bond_invest_amount.show();
-      buy_button_bond.show();
    }
 
-   
-
-}
-
-function living_cost()
-{
-   push();
-   translate(40,20);
-   push();
-   translate (266,190);
-
-   textSize(20);
-   strokeWeight(3);
-   fill(241, 227, 176);
-   text("Living Cost", 50, -12);
-
-   translate(-38, -270);  //**********keep copying this box 
-   strokeWeight(3);
-  
-   rect(40, 270, 200, 100); // income box x,y,w,h*
-
-   pop();
-   fill(0);
-   strokeWeight(3);
-   textSize(15);
-   text("Living Cost: "+ int(incomeStatement.living_cost), 280, 220);
-
-   
-
-   question_mark_job.resize(20,20);   ///Question mark
-   image(question_mark_job, 443, 195);
-
-   pop();
-
-   
-
-}
-
-function living_cost_info()
-{
-   push();
-        translate(0,0);
-        fill(58, 65, 53);
-        rect(541,204, 740,500 );
-
-        cross_job.resize(20,20);   ///Cross Mark
-        image(cross_job, 1250, 215);
-
-       // next.resize(20,20);
-       // image(next, 1253,439);
-
-        textSize(30);
-        fill(241, 227, 176);
-        text("Living Cost", 830, 245);
-
-        translate(0, 25);
-        textSize(20);
-        text ("* Each year living cost increases because of inflation.", 560, 260);
-
-        text("* Inflation increase in prices and fall in the purchasing value of money.", 560, 300);
-
-        translate(0, -30);
-        text("* The Federal Reserve has a target annual inflation rate of 2%, and", 560, 365);
-        text("  it uses monetary policy to keep inflation in check and stabilize the", 560, 390);
-        text("  economy when inflation rises above that benchmark", 560, 415);
-
-        text("* Since it is governments promise to inflate the economy at 2%, ", 560, 455);
-        text("  it make cash a very bad and dangerous investment. Cash is sure to ", 560, 480);
-        text("  lose value over the long term.", 560, 505);
-
-        pop();
-
-}
-
-function mousePressed()
-{
-  print("mouseX is: ");
-   print(mouseX);
-   print(", mouseY is: ");
-   print(mouseY);
-
-   if (mouseX >= 163 && mouseX <= 206 && mouseY >= 22 && mouseY <= 53)  // Forward Sign
+   function homer_crying()
    {
+      //image
+      homerGif.size(360, 300);
+      homerGif.position(480, 330);
+      homerGif.show(); // Show and animate the GIF
+
+      homer_crying_sound.play();
+      homer_crying_sound.volume(0.3);
+      homer_crying_sound.noLoop();
+      // homer_crying_sound.setVolume(0.3);
+   }
+
+   function homer_rich()
+   {
+      //image
+      money_homer.size(360, 300);
+      money_homer.position(480, 330);
+      money_homer.show(); // Show and animate the GIF
+
+     // homer_crying_sound.stop();
+      // homer_crying_sound.setVolume(0.3);
+   }
+
+
+
+   function living_cost()
+   {
+      push();
+      translate(40,20);
+      push();
+      translate (266,190);
+
+      textSize(20);
+      strokeWeight(3);
+      fill(241, 227, 176);
+      text("Living Cost", 50, -12);
+
+      translate(-38, -270);  //**********keep copying this box 
+      strokeWeight(3);
+   
+      rect(40, 270, 200, 100); // income box x,y,w,h*
+
+      pop();
+      fill(0);
+      strokeWeight(3);
+      textSize(15);
+      text("Living Cost: "+ int(incomeStatement.living_cost), 280, 220);
+
       
-            balance_sheet.cash = balance_sheet.cash + int(incomeStatement.getNetIncome());
-            age_time++;
-            age_va++;
 
-            //stock_class.age_graph.push(age_va);
-         
+      question_mark_job.resize(20,20);   ///Question mark
+      image(question_mark_job, 443, 195);
 
-      //stock_class.age_graph.push(age_va);
-      stock_class.sold = false;
+      pop();
 
-      goldclass.sold = false;
-
-
-      net_Worth.age = age_va;
-      job_box.wage =  job_box.wage * 1.06;  // Wage increase because of inflation. 
-      incomeStatement.wage = job_box.wage;
-
-      incomeStatement.living_cost = incomeStatement.living_cost *1.0245;
-
-      incomeStatement.interest = 0;  // Clear interest income for the new year
-      bond1.maturity = 0;
-
-      stock_class.grow();
-      goldclass.grow();
+      
 
    }
 
-
-   // FOR JOB JS
-   if (dist(mouseX , mouseY, 486, 52) <= 20) 
+   function living_cost_info()
    {
-      job_info1 = true;
-   }
-   else if(dist(mouseX , mouseY, 1250, 215) <= 20)
-   {
-      job_info1 = false;
-      job_info2 = false;
-      living_question1 = false;
+      push();
+         translate(0,0);
+         fill(58, 65, 53);
+         rect(541,204, 740,500 );
+
+         cross_job.resize(20,20);   ///Cross Mark
+         image(cross_job, 1250, 215);
+
+         // next.resize(20,20);
+         // image(next, 1253,439);
+
+         textSize(30);
+         fill(241, 227, 176);
+         text("Living Cost", 830, 245);
+
+         translate(0, 25);
+         textSize(20);
+         text ("* Each year living cost increases because of inflation.", 560, 260);
+
+         text("* Inflation increase in prices and fall in the purchasing value of money.", 560, 300);
+
+         translate(0, -30);
+         text("* The Federal Reserve has a target annual inflation rate of 2%, and", 560, 365);
+         text("  it uses monetary policy to keep inflation in check and stabilize the", 560, 390);
+         text("  economy when inflation rises above that benchmark", 560, 415);
+
+         text("* Since it is governments promise to inflate the economy at 2%, ", 560, 455);
+         text("  it make cash a very bad and dangerous investment. Cash is sure to ", 560, 480);
+         text("  lose value over the long term.", 560, 505);
+
+         pop();
+
    }
 
-   if (dist(mouseX, mouseY, 1262, 446) <= 20)
+   function mousePressed()
    {
-      job_info2 = true;  
-     
-   }
+   print("mouseX is: ");
+      print(mouseX);
+      print(", mouseY is: ");
+      print(mouseY);
 
-   if (dist(mouseX , mouseY, 493, 222) <= 20) 
+      if (mouseX >= 163 && mouseX <= 206 && mouseY >= 22 && mouseY <= 53)  // Forward Sign ////////////////////////
       {
-         living_question1 = true;
+         
+         balance_sheet.cash = balance_sheet.cash + int(incomeStatement.getNetIncome());
+         age_time++;
+         age_va++;
+
+         //stock_class.age_graph.push(age_va);
+      
+
+         //stock_class.age_graph.push(age_va);
+         stock_class.sold = false;
+
+         goldclass.sold = false;
+
+
+         net_Worth.age = age_va;
+         job_box.wage =  job_box.wage * 1.06;  // Wage increase because of inflation. 
+         incomeStatement.wage = job_box.wage;
+
+         incomeStatement.living_cost = incomeStatement.living_cost *1.0245;
+
+         incomeStatement.interest = 0;  // Clear interest income for the new year
+         bond1.maturity = 0;
+
+         stock_class.grow();
+         goldclass.grow();
+
+         home.house_cost *= 1.06;  //increase the price of home
+         balance_sheet.home*= 1.06;
+         home.pay_mortgage();
+
+
+         //Animation
+         
+         homerGif.hide();
+         money_homer.hide();
+         homer_crying_sound.stop();
+
       }
-           
-}
+
+
+      // FOR JOB JS
+      if (dist(mouseX , mouseY, 486, 52) <= 20) 
+      {
+         job_info1 = true;
+      }
+      else if(dist(mouseX , mouseY, 1250, 215) <= 20)
+      {
+         job_info1 = false;
+         job_info2 = false;
+         living_question1 = false;
+      }
+
+      if (dist(mouseX, mouseY, 1262, 446) <= 20)
+      {
+         job_info2 = true;  
+      
+      }
+
+      if (dist(mouseX , mouseY, 493, 222) <= 20) 
+         {
+            living_question1 = true;
+         }
+            
+   }
 

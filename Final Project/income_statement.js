@@ -97,7 +97,7 @@ class IncomeStatement
         text("Dividend  " , x2, 330);
         text("Capital Gain " , x2, 350);
         textStyle(BOLD);
-        text("Income :       " , x2, 380);
+        text("Income :  100 %    " , x2, 380);
         textStyle(NORMAL);
 
         textAlign(RIGHT);
@@ -106,6 +106,7 @@ class IncomeStatement
         text(str(this.dividend), x, 330);
         text(int(this.capital_gain), x, 350);
         textStyle(BOLD);
+
         text(int(incomeStatement.getIncome()), x, 380);
         textStyle(NORMAL);
         //text(int(incomeStatement.getExpenses()), x, 440);
@@ -153,7 +154,7 @@ class IncomeStatement
         textAlign(LEFT);
         textStyle(BOLD);
         fill(0);
-        text("Net Income: ", x2, 580);
+        text("Net Income: " + int((incomeStatement.getNetIncome()/incomeStatement.getIncome())*100) + "%", x2, 580);
         textAlign(RIGHT);
         text(int(incomeStatement.getNetIncome()), x, 580);
 

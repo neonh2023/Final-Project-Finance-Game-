@@ -72,7 +72,8 @@ class stock
         this.stock_value = [0]; // Value change of each year get push to this array
         this.stock_graph_y = [10000];
 
-        this.inital_investment = 0; // to calculate the tax
+        this.inital_investment = []; // to calculate the tax
+        this.ave_price;
 
         this.age_graph = [age_va];
 
@@ -123,11 +124,17 @@ class stock
     buy(amt)
     {
         let last = this.stock_value[this.stock_value.length - 1] || 0;
-        this.inital_investment += amt;
+        this.inital_investment.push(amt);
         this.stock_value.push(amt+last);
         this.stock_graph_y.push(this.stock_value[this.stock_value.length - 1]);
         balance_sheet.cash -= amt;
+        let sum = 0;
+         for (let i = 0; i <this.inital_investment.length; i++)
+            {
+                sum+=this.inital_investment[i];
 
+            }
+        this.ave_price = (sum/this.inital_investment.length);
     }
 
     grow()
@@ -146,7 +153,7 @@ class stock
     sell(amt)
     {
         let last = this.stock_value[this.stock_value.length - 1];
-        let gain = (last - this.inital_investment) * (amt/this.inital_investment);
+        let gain = (last - this.ave_price) * (amt/this.ave_price);
         this.capital_gain.push(gain);
 
         if (gain > 0)
@@ -170,7 +177,7 @@ class stock
 
         this.afterTAX_income.push(gain-this.tax[this.tax.length-1]);
 
-        this.inital_investment -= amt;
+        
     }
 
 
