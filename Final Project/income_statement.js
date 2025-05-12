@@ -139,11 +139,11 @@ class IncomeStatement
         textStyle(NORMAL);
         textAlign(RIGHT);
         text(int(incomeStatement.living_cost), x, 430);
-        text(str(incomeStatement.mortgage_interest), x, 450);
+        text(int(incomeStatement.mortgage_interest), x, 450);
         text(int(this.income_tax), x,470);
-        text(str(incomeStatement.dividend_tax), x, 490); 
+        text(int(incomeStatement.dividend_tax), x, 490);
         text(int(incomeStatement.capital_gain_tax), x, 510);
-        text(str(incomeStatement.credit_card_interest), x, 530); 
+        text(int(incomeStatement.credit_card_interest), x, 530);
 
         translate(0,10);
         strokeWeight(3);
